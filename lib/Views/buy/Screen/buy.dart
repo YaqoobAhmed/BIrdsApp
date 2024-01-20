@@ -467,17 +467,17 @@ class BuyScreen extends StatelessWidget {
         stream: fetchData(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           } else {
             return GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: snapshot.data!.docs.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
               itemBuilder: (context, index) {
@@ -501,7 +501,7 @@ class BuyScreen extends StatelessWidget {
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Container(
                       height: 194,
                       width: MediaQuery.of(context).size.height * 0.2,
@@ -509,7 +509,7 @@ class BuyScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white,
                         boxShadow: [
-                          BoxShadow(
+                          const BoxShadow(
                             color: Colors.grey,
                             spreadRadius: 0.5,
                             blurRadius: 5,
@@ -527,7 +527,7 @@ class BuyScreen extends StatelessWidget {
                                 image: NetworkImage(postMap["birdPic"]),
                                 fit: BoxFit.fill,
                               ),
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
                               ),

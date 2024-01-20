@@ -1,6 +1,7 @@
 import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/Views/Register/register.dart';
 import 'package:firebase/colors.dart';
+import 'package:firebase/firebase%20service/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -16,44 +17,44 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false; // Added a boolean to manage loading state
 
-  Future<void> login() async {
-    String emailAddress = emailController.text.trim();
-    String password = passwordController.text.trim();
+  // Future<void> login() async {
+  //   String emailAddress = emailController.text.trim();
+  //   String password = passwordController.text.trim();
 
-    if (emailAddress.isEmpty || password.isEmpty) {
-      print("Please fill all fields");
-      return;
-    }
+  //   if (emailAddress.isEmpty || password.isEmpty) {
+  //     print("Please fill all fields");
+  //     return;
+  //   }
 
-    try {
-      setState(() {
-        isLoading =
-            true; // Set loading state to true when starting login process
-      });
+  //   try {
+  //     setState(() {
+  //       isLoading =
+  //           true; // Set loading state to true when starting login process
+  //     });
 
-      // ignore: unused_local_variable
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailAddress,
-        password: password,
-      );
+  //     // ignore: unused_local_variable
+  //     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //       email: emailAddress,
+  //       password: password,
+  //     );
 
-      // After successful login, navigate to the OnboardingScreen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => OnboardingScreen()),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    } finally {
-      setState(() {
-        isLoading = false; // Set loading state to false after login attempt
-      });
-    }
-  }
+  //     // After successful login, navigate to the OnboardingScreen
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+  //     );
+  //   } on FirebaseAuthException catch (e) {
+  //     if (e.code == 'user-not-found') {
+  //       print('No user found for that email.');
+  //     } else if (e.code == 'wrong-password') {
+  //       print('Wrong password provided for that user.');
+  //     }
+  //   } finally {
+  //     setState(() {
+  //       isLoading = false; // Set loading state to false after login attempt
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +95,7 @@ class _LoginViewState extends State<LoginView> {
                           labelText: "Email",
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       TextFormField(
                         obscureText: true,
                         controller: passwordController,
@@ -118,11 +117,25 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               GestureDetector(
-                onTap: login,
+                onTap: () {
+                  setState(() {
+                    isLoading = true;
+                    FirebaseAuthService.signInWithEmailAndPassword(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                    isLoading = false;
+                  });
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const OnboardingScreen()),
+                  );
+                },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.05,
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -130,7 +143,7 @@ class _LoginViewState extends State<LoginView> {
                     color: blueColor,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Login",
                       style: TextStyle(color: Colors.white),
@@ -138,12 +151,12 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Wrap(
                 children: [
-                  Text("Don't have an account ? "),
+                  const Text("Don't have an account ? "),
                   GestureDetector(
                     child: Text(
                       "Register",
@@ -153,7 +166,8 @@ class _LoginViewState extends State<LoginView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) => RegisterView(),
+                          builder: (BuildContext context) =>
+                              const RegisterView(),
                         ),
                       );
                     },

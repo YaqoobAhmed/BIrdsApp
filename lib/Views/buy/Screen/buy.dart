@@ -493,7 +493,7 @@ class BuyScreen extends StatelessWidget {
                         name: postMap["name"],
                         breed: postMap["breed"],
                         age: postMap["age"],
-                        discription: postMap["discription"],
+                        description: postMap["discription"],
                         address: postMap["address"],
                         price: postMap["price"],
                         contact: postMap["contact"],

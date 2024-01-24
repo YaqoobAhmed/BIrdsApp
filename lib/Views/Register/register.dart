@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/Views/Mainpage/home.dart';
 import 'package:firebase/colors.dart';
+import 'package:firebase/firebase%20service/auth_service.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,61 +26,61 @@ class _RegisterViewState extends State<RegisterView> {
   bool isLoading = false;
   File? profilePick;
 
-  void RegisterUser() async {
-    String name = nameController.text.trim();
-    String email = emailController.text.trim();
-    String password = passwordController.text.trim();
-    String cPassword = cPasswordController.text.trim();
-    String phone = phoneController.text.trim();
+  // void RegisterUser() async {
+  //   String name = nameController.text.trim();
+  //   String email = emailController.text.trim();
+  //   String password = passwordController.text.trim();
+  //   String cPassword = cPasswordController.text.trim();
+  //   String phone = phoneController.text.trim();
 
-    if (name == "" || email == "" || password == "" || cPassword == ""
-        //  ||
-        // profilePick == null
+  //   if (name == "" || email == "" || password == "" || cPassword == ""
+  //       //  ||
+  //       // profilePick == null
 
-        ) {
-      print("Please fill all fields");
-    } else if (password != cPassword) {
-      print("Password does not match");
-    } else {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-        // ignore: unused_local_variable
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
+  //       ) {
+  //     print("Please fill all fields");
+  //   } else if (password != cPassword) {
+  //     print("Password does not match");
+  //   } else {
+  //     try {
+  //       setState(() {
+  //         isLoading = true;
+  //       });
+  //       // ignore: unused_local_variable
+  //       UserCredential userCredential = await FirebaseAuth.instance
+  //           .createUserWithEmailAndPassword(email: email, password: password);
 
-        // UploadTask uploadTask = FirebaseStorage.instance
-        //     .ref()
-        //     .child("UserProfilePictures")
-        //     .child(Uuid().v1())
-        //     .putFile(profilePick!);
+  //       // UploadTask uploadTask = FirebaseStorage.instance
+  //       //     .ref()
+  //       //     .child("UserProfilePictures")
+  //       //     .child(Uuid().v1())
+  //       //     .putFile(profilePick!);
 
-        // TaskSnapshot taskSnapshot = await uploadTask;
-        // String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
+  //       // TaskSnapshot taskSnapshot = await uploadTask;
+  //       // String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
 
-        //fore storing user info
-        FirebaseFirestore _firestore = FirebaseFirestore.instance;
-        Map<String, dynamic> userdata = {
-          "name": name,
-          "email": email,
-          "phone": phone,
-          // "profilePick": donwnloadUrl
-        };
-        await _firestore.collection("user").add(userdata);
+  //       //fore storing user info
+  //       FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  //       Map<String, dynamic> userdata = {
+  //         "name": name,
+  //         "email": email,
+  //         "phone": phone,
+  //         // "profilePick": donwnloadUrl
+  //       };
+  //       await _firestore.collection("user").add(userdata);
 
-        print("User created");
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeView()));
-      } on FirebaseAuthException catch (ex) {
-        print(ex.code.toString());
-      } finally {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
-  }
+  //       print("User created");
+  //       Navigator.pushReplacement(
+  //           context, MaterialPageRoute(builder: (context) => const HomeView()));
+  //     } on FirebaseAuthException catch (ex) {
+  //       print(ex.code.toString());
+  //     } finally {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +107,7 @@ class _RegisterViewState extends State<RegisterView> {
             child: Form(
                 child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.9,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -126,7 +127,7 @@ class _RegisterViewState extends State<RegisterView> {
                         labelText: "Full Name",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
@@ -144,7 +145,7 @@ class _RegisterViewState extends State<RegisterView> {
                         labelText: "Email",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
@@ -162,7 +163,7 @@ class _RegisterViewState extends State<RegisterView> {
                         labelText: "phone",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
@@ -181,7 +182,7 @@ class _RegisterViewState extends State<RegisterView> {
                         labelText: "Password",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
@@ -200,18 +201,33 @@ class _RegisterViewState extends State<RegisterView> {
                         labelText: "Confirm Password",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     GestureDetector(
-                      onTap: RegisterUser,
+                      onTap: () {
+                        setState(() {
+                          isLoading = true;
+                          FirebaseAuthService.createUserWithEmailAndPassword(
+                            emailController.text,
+                            passwordController.text,
+                            nameController.text,
+                            phoneController.text,
+                          );
+                          isLoading = false;
+                        });
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeView()));
+                      },
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.05,
                         width: MediaQuery.of(context).size.width * 0.8,
                         decoration: BoxDecoration(
                             color: blueColor,
                             borderRadius: BorderRadius.circular(16)),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             "Signup",
                             style: TextStyle(color: Colors.white),

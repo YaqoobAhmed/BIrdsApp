@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/Views/Login/login.dart';
 import 'package:firebase/colors.dart';
+import 'package:firebase/firebase%20service/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -17,23 +18,23 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueColor,
-        title: Center(
-            child: const Text(
+        title: const Center(
+            child: Text(
           "Home Page",
           style: TextStyle(color: Colors.white),
         )),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await FirebaseAuth.instance.signOut();
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => LoginView()));
+        onPressed: () {
+          FirebaseAuthService.signOut();
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const LoginView()));
         },
-        child: Icon(
+        backgroundColor: blueColor,
+        child: const Icon(
           Icons.logout,
           color: Colors.white,
         ),
-        backgroundColor: blueColor,
       ),
       body: Column(
         children: [
@@ -54,17 +55,18 @@ class _HomeViewState extends State<HomeView> {
                             child: ListTile(
                               title: Text(
                                 userMap["name"],
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(userMap["phone"]),
                             ),
                           );
                         });
                   } else {
-                    return Text("no data");
+                    return const Text("no data");
                   }
                 } else {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }

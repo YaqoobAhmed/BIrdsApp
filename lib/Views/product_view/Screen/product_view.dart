@@ -8,7 +8,7 @@ class ProductView extends StatelessWidget {
       required this.name,
       required this.breed,
       required this.age,
-      required this.discription,
+      required this.description,
       required this.address,
       required this.price,
       required this.contact});
@@ -16,7 +16,7 @@ class ProductView extends StatelessWidget {
   final String name;
   final String breed;
   var age;
-  final String discription;
+  final String description;
   final String address;
   var price;
   final String contact;
@@ -42,7 +42,7 @@ class ProductView extends StatelessWidget {
                             color: blueColor,
                             spreadRadius: 2,
                             blurRadius: 22,
-                            offset: Offset(-4, 4))
+                            offset: const Offset(-4, 4))
                       ],
                       image: DecorationImage(
                           image: NetworkImage(image), fit: BoxFit.fill),
@@ -57,7 +57,7 @@ class ProductView extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 20,
                       backgroundColor: iconColor,
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         size: 30,
                         color: Colors.black,
@@ -80,82 +80,82 @@ class ProductView extends StatelessWidget {
                       children: [
                         Text(
                           name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 26),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         RichText(
                           text: TextSpan(
                               text: "Breed: ",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                   color: Colors.black),
                               children: [
                                 TextSpan(
                                     text: breed,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
                               ]),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         RichText(
                           text: TextSpan(
                               text: "Age: ",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                   color: Colors.black),
                               children: [
                                 TextSpan(
                                     text: age.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
                               ]),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         RichText(
                           text: TextSpan(
                               text: "Description: ",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                   color: Colors.black),
                               children: [
                                 TextSpan(
-                                    text: discription,
-                                    style: TextStyle(
+                                    text: description,
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
                               ]),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         RichText(
                           text: TextSpan(
                               text: "Address: ",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                   color: Colors.black),
                               children: [
                                 TextSpan(
                                     text: address,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
                               ]),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
@@ -163,7 +163,7 @@ class ProductView extends StatelessWidget {
                           children: [
                             Text(
                               "Price: \$${price.toString()}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 20),
                             ),
                             Container(
@@ -187,7 +187,7 @@ class ProductView extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               )
             ],

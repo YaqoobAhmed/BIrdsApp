@@ -1,4 +1,3 @@
-import 'package:firebase/Views/Foodmart/Screen/foodmart_screen.dart';
 import 'package:firebase/Views/Login/login.dart';
 import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase_auth/firebase_auth.dart';

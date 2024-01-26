@@ -2,21 +2,18 @@ import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class ProductView extends StatelessWidget {
-  ProductView(
+class FoodProductView extends StatelessWidget {
+  FoodProductView(
       {super.key,
       required this.image,
       required this.name,
-      required this.breed,
-      required this.age,
       required this.description,
       required this.address,
       required this.price,
       required this.contact});
   final String image;
   final String name;
-  final String breed;
-  var age;
+
   final String description;
   final String address;
   var price;
@@ -87,38 +84,8 @@ class ProductView extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        RichText(
-                          text: TextSpan(
-                              text: "Breed: ",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  color: Colors.black),
-                              children: [
-                                TextSpan(
-                                    text: breed,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal))
-                              ]),
-                        ),
                         const SizedBox(
                           height: 10,
-                        ),
-                        RichText(
-                          text: TextSpan(
-                              text: "Age: ",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  color: Colors.black),
-                              children: [
-                                TextSpan(
-                                    text: age.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal))
-                              ]),
                         ),
                         const SizedBox(
                           height: 10,

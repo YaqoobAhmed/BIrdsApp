@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: FoodMartScreen(),
       home: user != null ? const OnboardingScreen() : const LoginView(),
     );
   }

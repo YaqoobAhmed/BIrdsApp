@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/Views/Article/Screen_article/article_screen.dart';
+import 'package:firebase/Views/Foodmart/Screen/foodmart_screen.dart';
 import 'package:firebase/Views/Onboarding/Widget/onboard_container.dart';
 import 'package:firebase/Views/Profile/Screen/Profile_screen.dart';
 import 'package:firebase/Views/buy/Screen/buy.dart';
@@ -100,6 +100,12 @@ class OnboardingScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         OnboardContainer(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FoodMartScreen(),
+                            ),
+                          ),
                           icon: Icon(
                             Icons.store,
                             color: whiteColor,

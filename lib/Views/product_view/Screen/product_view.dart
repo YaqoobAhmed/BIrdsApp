@@ -1,5 +1,6 @@
 import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class ProductView extends StatelessWidget {
@@ -21,6 +22,13 @@ class ProductView extends StatelessWidget {
   final String address;
   var price;
   final String contact;
+
+  void launchWhatsapp({required number, required message}) async {
+    String url = "whatsapp://send?phone=$number&text=$message";
+    await canLaunchUrl(Uri.parse(url))
+        ? launchUrl(Uri.parse(url))
+        : print("Can't Open Whatsapp");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,19 +175,37 @@ class ProductView extends StatelessWidget {
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 20),
                             ),
-                            Container(
-                              height: 40,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                  color: blueColor,
-                                  borderRadius: BorderRadius.circular(16)),
-                              child: Center(
-                                  child: Text(
-                                contact,
-                                style: TextStyle(
-                                    color: whiteColor,
-                                    fontWeight: FontWeight.bold),
-                              )),
+                            GestureDetector(
+                              onTap: () {
+                                launchWhatsapp(
+                                    number: contact,
+                                    message:
+                                        "Hello, I want to talk about your ad '$name' on BirdsApp");
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 135,
+                                decoration: BoxDecoration(
+                                    color: blueColor,
+                                    borderRadius: BorderRadius.circular(16)),
+                                child: Center(
+                                    child: Wrap(children: [
+                                  Icon(
+                                    Icons.message,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    contact,
+                                    style: TextStyle(
+                                        color: whiteColor,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ])),
+                              ),
                             )
                           ],
                         ),

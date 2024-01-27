@@ -19,8 +19,8 @@ class FirebaseAuthService {
     }
   }
 
-  static Future<dynamic> createUserWithEmailAndPassword(
-      String email, String password, String name, String phoneNumber) async {
+  static Future<dynamic> createUserWithEmailAndPassword(String email,
+      String password, String name, String phoneNumber, String nic) async {
     try {
       final UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
@@ -32,6 +32,7 @@ class FirebaseAuthService {
         "name": name,
         "email": email,
         "phone": phoneNumber,
+        "nic": nic
       };
       await _firestore.collection("user").add(userdata);
       return userCredential.user;

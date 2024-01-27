@@ -23,7 +23,7 @@
     </queries>
 
     <application
-        android:label="firebase"
+        android:label="Avian Tech Emporium"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true">

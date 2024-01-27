@@ -17,6 +17,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController cPasswordController = TextEditingController();
+  TextEditingController nicController = TextEditingController();
   bool isLoading = false;
   File? profilePick;
 
@@ -207,6 +208,7 @@ class _RegisterViewState extends State<RegisterView> {
                             passwordController.text,
                             nameController.text,
                             phoneController.text,
+                            nicController.text,
                           );
                           isLoading = false;
                         });

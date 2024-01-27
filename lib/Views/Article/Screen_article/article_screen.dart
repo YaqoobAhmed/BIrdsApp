@@ -1,3 +1,4 @@
+import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,18 @@ class ArticleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OnboardingScreen(),
+                  ));
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            )),
         backgroundColor: blueColor,
         title: Text(
           "Articles",

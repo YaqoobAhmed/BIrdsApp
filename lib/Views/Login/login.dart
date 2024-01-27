@@ -59,12 +59,23 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OnboardingScreen(),
+                  ));
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: whiteColor,
+            )),
         backgroundColor: blueColor,
-        title: Center(
-          child: Text(
-            "Login Page",
-            style: TextStyle(color: whiteColor),
-          ),
+        title: Text(
+          "Login Page",
+          style: TextStyle(color: whiteColor),
         ),
       ),
       body: Stack(

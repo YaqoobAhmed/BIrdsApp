@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:firebase/Views/Mainpage/home.dart';
+import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase/firebase%20service/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -213,7 +213,8 @@ class _RegisterViewState extends State<RegisterView> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const HomeView()));
+                                builder: (context) =>
+                                    const OnboardingScreen()));
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.05,

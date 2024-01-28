@@ -126,7 +126,7 @@ class _SellScreenState extends State<SellScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: 20,
+                    top: 15,
                   ),
                   child: Column(
                     children: [
@@ -236,7 +236,7 @@ class _SellScreenState extends State<SellScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 10,
                         ),
                         GestureDetector(
                           onTap: AddPost,

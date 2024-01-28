@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
-class ProductView extends StatelessWidget {
+class ProductView extends StatefulWidget {
   ProductView(
       {super.key,
       required this.image,
@@ -23,6 +23,11 @@ class ProductView extends StatelessWidget {
   var price;
   final String contact;
 
+  @override
+  State<ProductView> createState() => _ProductViewState();
+}
+
+class _ProductViewState extends State<ProductView> {
   void launchWhatsapp({required number, required message}) async {
     String url = "whatsapp://send?phone=$number&text=$message";
     await canLaunchUrl(Uri.parse(url))
@@ -54,7 +59,7 @@ class ProductView extends StatelessWidget {
                             offset: const Offset(-4, 4))
                       ],
                       image: DecorationImage(
-                          image: NetworkImage(image), fit: BoxFit.fill),
+                          image: NetworkImage(widget.image), fit: BoxFit.fill),
                     ),
                   ),
                 ),
@@ -88,7 +93,7 @@ class ProductView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          widget.name,
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 26),
                         ),
@@ -104,7 +109,7 @@ class ProductView extends StatelessWidget {
                                   color: Colors.black),
                               children: [
                                 TextSpan(
-                                    text: breed,
+                                    text: widget.breed,
                                     style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
@@ -122,7 +127,7 @@ class ProductView extends StatelessWidget {
                                   color: Colors.black),
                               children: [
                                 TextSpan(
-                                    text: age.toString(),
+                                    text: widget.age.toString(),
                                     style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
@@ -140,7 +145,7 @@ class ProductView extends StatelessWidget {
                                   color: Colors.black),
                               children: [
                                 TextSpan(
-                                    text: description,
+                                    text: widget.description,
                                     style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
@@ -158,7 +163,7 @@ class ProductView extends StatelessWidget {
                                   color: Colors.black),
                               children: [
                                 TextSpan(
-                                    text: address,
+                                    text: widget.address,
                                     style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
@@ -171,16 +176,16 @@ class ProductView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Price: \$${price.toString()}",
+                              "Price: \$${widget.price.toString()}",
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 20),
                             ),
                             GestureDetector(
                               onTap: () {
                                 launchWhatsapp(
-                                    number: contact,
+                                    number: widget.contact,
                                     message:
-                                        "Hello, I want to talk about your ad '$name' on BirdsApp");
+                                        "Hello, I want to talk about your ad '${widget.name}' on BirdsApp");
                               },
                               child: Container(
                                 height: 40,
@@ -199,7 +204,7 @@ class ProductView extends StatelessWidget {
                                     width: 5,
                                   ),
                                   Text(
-                                    contact,
+                                    widget.contact,
                                     style: TextStyle(
                                         color: whiteColor,
                                         fontWeight: FontWeight.bold),

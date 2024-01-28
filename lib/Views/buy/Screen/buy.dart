@@ -59,7 +59,6 @@ class BuyScreen extends StatelessWidget {
             return const Center(child: Text('No data available'));
           } else {
             return GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: snapshot.data!.docs.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

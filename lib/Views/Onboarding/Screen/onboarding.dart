@@ -1,10 +1,7 @@
-import 'package:firebase/Views/Article/Screen_article/article_screen.dart';
-import 'package:firebase/Views/Foodmart/Screen/foodmart_screen.dart';
 import 'package:firebase/Views/Onboarding/Widget/onboard_container.dart';
 import 'package:firebase/Views/Profile/Screen/Profile_screen.dart';
-import 'package:firebase/Views/buy/Screen/buy.dart';
-import 'package:firebase/Views/sell/Screen/Sell.dart';
 import 'package:firebase/colors.dart';
+import 'package:firebase/navBar.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -51,7 +48,8 @@ class OnboardingScreen extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => BuyScreen(),
+                              builder: (context) =>
+                                  BottomNavBar(initialTabIndex: 0),
                             ),
                           ),
                           icon: Icon(
@@ -65,7 +63,8 @@ class OnboardingScreen extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SellScreen(),
+                              builder: (context) =>
+                                  BottomNavBar(initialTabIndex: 1),
                             ),
                           ),
                           icon: Icon(
@@ -84,6 +83,13 @@ class OnboardingScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         OnboardContainer(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  BottomNavBar(initialTabIndex: 2),
+                            ),
+                          ),
                           icon: Icon(
                             Icons.camera_alt,
                             color: whiteColor,
@@ -103,7 +109,8 @@ class OnboardingScreen extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FoodMartScreen(),
+                              builder: (context) =>
+                                  BottomNavBar(initialTabIndex: 3),
                             ),
                           ),
                           icon: Icon(
@@ -117,7 +124,8 @@ class OnboardingScreen extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ArticleScreen(),
+                              builder: (context) =>
+                                  BottomNavBar(initialTabIndex: 4),
                             ),
                           ),
                           icon: Icon(

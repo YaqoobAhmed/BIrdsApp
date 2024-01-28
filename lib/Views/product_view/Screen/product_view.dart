@@ -28,11 +28,21 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
-  void launchWhatsapp({required number, required message}) async {
+  void launchWhatsapp({required String number, required String message}) async {
     String url = "whatsapp://send?phone=$number&text=$message";
-    await canLaunchUrl(Uri.parse(url))
-        ? launchUrl(Uri.parse(url))
-        : print("Can't Open Whatsapp");
+
+    if (await canLaunchUrl(Uri.parse(url))) {
+      launchUrl(Uri.parse(url));
+    } else {
+      // Check if the platform is not mobile (e.g., running on PC)
+      if (!await canLaunch('tel:+$number')) {
+        print("WhatsApp is not installed on this device.");
+        return;
+      }
+
+      // Launch the default phone dialer with the number
+      await launch('tel:$number');
+    }
   }
 
   @override

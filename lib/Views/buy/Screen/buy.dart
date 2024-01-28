@@ -30,17 +30,19 @@ class BuyScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OnboardingScreen(),
-                  ));
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: whiteColor,
-            )),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OnboardingScreen(),
+              ),
+            );
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: whiteColor,
+          ),
+        ),
         backgroundColor: blueColor,
         title: Text(
           "Buy Birds",
@@ -49,23 +51,24 @@ class BuyScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-                size: 30,
-              ))
+            onPressed: () {},
+            icon: Icon(
+              Icons.search,
+              color: Colors.white,
+              size: 30,
+            ),
+          )
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: fetchData(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No data available'));
+            return Center(child: Text('No data available'));
           } else {
             return GridView.builder(
               shrinkWrap: true,
@@ -129,14 +132,32 @@ class BuyScreen extends StatelessWidget {
                           SizedBox(
                             height: 65,
                             child: ListTile(
-                              title: Wrap(
-                                alignment: WrapAlignment.spaceBetween,
-                                children: [
-                                  Text(postMap["name"]),
-                                  Text("\$ ${postMap["price"]}"),
-                                ],
+                              title: Text(
+                                postMap["name"],
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
-                              subtitle: Text(postMap["breed"]),
+                              subtitle: Wrap(
+                                  alignment: WrapAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
+                                      child: Text(
+                                        postMap["breed"],
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                    Text(
+                                      "\$${postMap["price"]}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: blueColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ]),
                             ),
                           ),
                         ],

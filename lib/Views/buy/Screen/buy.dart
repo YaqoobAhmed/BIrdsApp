@@ -47,6 +47,15 @@ class BuyScreen extends StatelessWidget {
           style: TextStyle(color: whiteColor),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
+                size: 30,
+              ))
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: fetchData(),

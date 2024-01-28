@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -76,8 +75,6 @@ class _SellScreenState extends State<SellScreen> {
         await _firestore.collection("adds").add(sellData);
 
         print("Add posted");
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => OnboardingScreen()));
 
         //show bottom snackbar
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -236,7 +233,7 @@ class _SellScreenState extends State<SellScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 50,
                         ),
                         GestureDetector(
                           onTap: AddPost,
@@ -255,7 +252,7 @@ class _SellScreenState extends State<SellScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         )
                       ],
                     ),

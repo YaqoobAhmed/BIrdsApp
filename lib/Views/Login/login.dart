@@ -1,7 +1,8 @@
 import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/Views/Register/register.dart';
 import 'package:firebase/colors.dart';
-import 'package:firebase/firebase%20service/auth_service.dart';
+// import 'package:firebase/firebase%20service/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -16,44 +17,44 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false; // Added a boolean to manage loading state
 
-  // Future<void> login() async {
-  //   String emailAddress = emailController.text.trim();
-  //   String password = passwordController.text.trim();
+  Future<void> login() async {
+    String emailAddress = emailController.text.trim();
+    String password = passwordController.text.trim();
 
-  //   if (emailAddress.isEmpty || password.isEmpty) {
-  //     print("Please fill all fields");
-  //     return;
-  //   }
+    if (emailAddress.isEmpty || password.isEmpty) {
+      print("Please fill all fields");
+      return;
+    }
 
-  //   try {
-  //     setState(() {
-  //       isLoading =
-  //           true; // Set loading state to true when starting login process
-  //     });
+    try {
+      setState(() {
+        isLoading =
+            true; // Set loading state to true when starting login process
+      });
 
-  //     // ignore: unused_local_variable
-  //     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: emailAddress,
-  //       password: password,
-  //     );
+      // ignore: unused_local_variable
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
+      );
 
-  //     // After successful login, navigate to the OnboardingScreen
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'user-not-found') {
-  //       print('No user found for that email.');
-  //     } else if (e.code == 'wrong-password') {
-  //       print('Wrong password provided for that user.');
-  //     }
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false; // Set loading state to false after login attempt
-  //     });
-  //   }
-  // }
+      // After successful login, navigate to the OnboardingScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    } finally {
+      setState(() {
+        isLoading = false; // Set loading state to false after login attempt
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,19 +121,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    isLoading = true;
-                    FirebaseAuthService.signInWithEmailAndPassword(
-                      emailController.text,
-                      passwordController.text,
-                    );
-                    isLoading = false;
-                  });
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const OnboardingScreen()),
-                  );
+                  login();
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.05,

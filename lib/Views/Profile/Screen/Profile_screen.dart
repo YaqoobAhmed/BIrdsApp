@@ -1,4 +1,5 @@
 import 'package:firebase/Views/Login/login.dart';
+import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,11 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OnboardingScreen(),
+                    ));
               },
               icon: Icon(
                 Icons.arrow_back,
@@ -76,7 +81,7 @@ class ProfileScreen extends StatelessWidget {
                   ]),
                 ),
                 Text(
-                  "Hassan Mirza",
+                  "Tripti Dimri",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Column(
@@ -97,7 +102,7 @@ class ProfileScreen extends StatelessWidget {
                             width: 10,
                           ),
                           Text(
-                            "hassanmirza@gmail.com",
+                            "abc@gmail.com",
                             style: TextStyle(
                               fontSize: 20,
                             ),
@@ -118,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
                             width: 10,
                           ),
                           Text(
-                            "03062694259",
+                            "0306269XXXX",
                             style: TextStyle(
                               fontSize: 20,
                             ),
@@ -148,14 +153,17 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: () async {
                         await FirebaseAuth.instance.signOut();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginView(),
-                            ));
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginView(),
+                          ),
+                          (route) =>
+                              false, // This line removes all the previous routes from the stack
+                        );
                       },
                       child: Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,

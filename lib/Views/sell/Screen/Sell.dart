@@ -170,94 +170,98 @@ class _SellScreenState extends State<SellScreen> {
                   ),
                 ),
                 Form(
+                    autovalidateMode: AutovalidateMode.always,
                     child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: SizedBox(
-                    // height: MediaQuery.of(context).size.height * 0.9,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: titleControlle,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: blueColor),
-                            labelText: "Title:",
-                          ),
-                        ),
-                        TextFormField(
-                          controller: breedControlle,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: blueColor),
-                            labelText: "Breed:",
-                          ),
-                        ),
-                        TextFormField(
-                          controller: ageController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              labelStyle: TextStyle(color: blueColor),
-                              labelText: "Age:",
-                              hintText: "1.2"),
-                        ),
-                        TextFormField(
-                          controller: discriptionController,
-                          keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: blueColor),
-                            labelText: "Discription:",
-                          ),
-                        ),
-                        TextFormField(
-                          controller: contactController,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: blueColor),
-                            labelText: "Contact:",
-                          ),
-                        ),
-                        TextFormField(
-                          controller: priceController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: blueColor),
-                            labelText: "Price:",
-                          ),
-                        ),
-                        TextFormField(
-                          controller: addressController,
-                          keyboardType: TextInputType.streetAddress,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: blueColor),
-                            labelText: "Address:",
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        GestureDetector(
-                          onTap: AddPost,
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            decoration: BoxDecoration(
-                                color: blueColor,
-                                borderRadius: BorderRadius.circular(16)),
-                            child: Center(
-                              child: Text(
-                                "Add Post",
-                                style: TextStyle(color: Colors.white),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: SizedBox(
+                        // height: MediaQuery.of(context).size.height * 0.75,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: titleControlle,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(color: blueColor),
+                                labelText: "Title:",
                               ),
                             ),
-                          ),
+                            TextFormField(
+                              controller: breedControlle,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(color: blueColor),
+                                labelText: "Breed:",
+                              ),
+                            ),
+                            TextFormField(
+                              controller: ageController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  labelStyle: TextStyle(color: blueColor),
+                                  labelText: "Age:",
+                                  hintText: "1.2"),
+                            ),
+                            TextFormField(
+                              controller: discriptionController,
+                              keyboardType: TextInputType.multiline,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(color: blueColor),
+                                labelText: "Discription:",
+                              ),
+                            ),
+                            TextFormField(
+                              controller: contactController,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(color: blueColor),
+                                labelText: "Contact:",
+                              ),
+                            ),
+                            TextFormField(
+                              controller: priceController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(color: blueColor),
+                                labelText: "Price:",
+                              ),
+                            ),
+                            TextFormField(
+                              controller: addressController,
+                              keyboardType: TextInputType.streetAddress,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(color: blueColor),
+                                labelText: "Address:",
+                              ),
+                            ),
+                            SizedBox(
+                              height: 35,
+                            ),
+                            GestureDetector(
+                              onTap: AddPost,
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                decoration: BoxDecoration(
+                                    color: blueColor,
+                                    borderRadius: BorderRadius.circular(16)),
+                                child: Center(
+                                  child: Text(
+                                    "Add Post",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    ),
-                  ),
-                )),
+                      ),
+                    )),
               ],
             ),
           ),

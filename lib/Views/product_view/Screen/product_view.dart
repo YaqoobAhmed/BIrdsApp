@@ -1,5 +1,6 @@
 import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
@@ -28,12 +29,33 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
-  void launchWhatsapp({required number, required message}) async {
+  void launchWhatsapp({required String number, required String message}) async {
     String url = "whatsapp://send?phone=$number&text=$message";
-    await canLaunchUrl(Uri.parse(url))
-        ? launchUrl(Uri.parse(url))
-        : print("Can't Open Whatsapp");
+    String defaultSmsUrl = "sms:$number?body=$message";
+
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      print("WhatsApp not available, opening default messaging app...");
+      await launchUrl(Uri.parse(defaultSmsUrl));
+    }
   }
+
+  void launchDialer({
+    required String number,
+  }) async {
+    String url = "tel:$number";
+
+    await launchUrl(Uri.parse(url));
+  }
+
+  // void launchWhatsapp({required number, required message}) async {
+  //   String url = "whatsapp://send?phone=$number&text=$message";
+  //   await canLaunchUrl(Uri.parse(url))
+  //       ? launchUrl(Uri.parse(url))
+  //       : print("Can't Open Whatsapp");
+  // }
+
   // void launchWhatsapp({required String number, required String message}) async {
   //   String PhoneNumber = "03060896279";
   //   var url = "https//wa.me/$PhoneNumber?text=hellow world";
@@ -191,20 +213,20 @@ class _ProductViewState extends State<ProductView> {
                         const SizedBox(
                           height: 20,
                         ),
+                        Text(
+                          "Price: \$${widget.price.toString()}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Price: \$${widget.price.toString()}",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 20),
-                            ),
                             GestureDetector(
                               onTap: () {
-                                launchWhatsapp(
-                                    number: widget.contact,
-                                    message:
-                                        "Hello, I want to talk about your ad '${widget.name}' on BirdsApp");
+                                launchDialer(number: widget.contact);
                               },
                               child: Container(
                                 height: 40,
@@ -215,7 +237,7 @@ class _ProductViewState extends State<ProductView> {
                                 child: Center(
                                     child: Wrap(children: [
                                   Icon(
-                                    Icons.message,
+                                    Icons.call,
                                     color: Colors.white,
                                     size: 20,
                                   ),
@@ -230,7 +252,39 @@ class _ProductViewState extends State<ProductView> {
                                   ),
                                 ])),
                               ),
-                            )
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                launchWhatsapp(
+                                    number: widget.contact,
+                                    message:
+                                        "Hello, I want to talk about your ad '${widget.name}' on BirdsApp");
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 135,
+                                decoration: BoxDecoration(
+                                    color: Colors.green[500],
+                                    borderRadius: BorderRadius.circular(16)),
+                                child: Center(
+                                    child: Wrap(children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.whatsapp,
+                                    size: 20,
+                                    color: whiteColor,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    widget.contact,
+                                    style: TextStyle(
+                                        color: whiteColor,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ])),
+                              ),
+                            ),
                           ],
                         ),
                       ],

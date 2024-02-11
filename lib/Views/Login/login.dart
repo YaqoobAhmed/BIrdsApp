@@ -23,6 +23,7 @@ class _LoginViewState extends State<LoginView> {
 
     if (emailAddress.isEmpty || password.isEmpty) {
       print("Please fill all fields");
+
       return;
     }
 

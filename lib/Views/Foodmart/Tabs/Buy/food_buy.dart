@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/Views/Foodmart/Tabs/Buy/food_product_view.dart';
+import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
 
 class FoodBuyScreen extends StatelessWidget {
@@ -97,14 +98,21 @@ class FoodBuyScreen extends StatelessWidget {
                           SizedBox(
                             height: 65,
                             child: ListTile(
-                              title: Wrap(
-                                alignment: WrapAlignment.spaceBetween,
-                                children: [
-                                  Text(postMap["name"]),
-                                  Text("\$ ${postMap["price"]}"),
-                                ],
+                              title: Text(
+                                postMap["name"],
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(fontWeight: FontWeight.w400),
                               ),
-                              // subtitle: Text(postMap["breed"]),
+                              subtitle: Text(
+                                "\$${postMap["price"]}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    color: blueColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ],

@@ -42,6 +42,7 @@ class _RegisterViewState extends State<RegisterView> {
         // ignore: unused_local_variable
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
+        // String uid = userCredential.user!.uid;
 
         // UploadTask uploadTask = FirebaseStorage.instance
         //     .ref()
@@ -55,12 +56,16 @@ class _RegisterViewState extends State<RegisterView> {
         //fore storing user info
         FirebaseFirestore _firestore = FirebaseFirestore.instance;
         Map<String, dynamic> userdata = {
+          // "uid": uid,
           "name": name,
           "email": email,
           "phone": phone,
           // "profilePick": donwnloadUrl
         };
-        await _firestore.collection("user").add(userdata);
+        await _firestore
+            .collection("user")
+            .doc(userCredential.user!.email)
+            .set(userdata);
 
         print("User created");
         Navigator.pushReplacement(context,

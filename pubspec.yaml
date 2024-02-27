@@ -44,6 +44,7 @@ dependencies:
   curved_labeled_navigation_bar: ^2.0.2
   url_launcher: ^6.2.4
   font_awesome_flutter: ^10.7.0
+  firebase_database: ^10.4.6
 
 dev_dependencies:
   flutter_test:

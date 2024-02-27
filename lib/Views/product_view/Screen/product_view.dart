@@ -49,33 +49,6 @@ class _ProductViewState extends State<ProductView> {
     await launchUrl(Uri.parse(url));
   }
 
-  // void launchWhatsapp({required number, required message}) async {
-  //   String url = "whatsapp://send?phone=$number&text=$message";
-  //   await canLaunchUrl(Uri.parse(url))
-  //       ? launchUrl(Uri.parse(url))
-  //       : print("Can't Open Whatsapp");
-  // }
-
-  // void launchWhatsapp({required String number, required String message}) async {
-  //   String PhoneNumber = "03060896279";
-  //   var url = "https//wa.me/$PhoneNumber?text=hellow world";
-  //   await launchUrl(Uri.parse(url));
-  //   // String url = "https//whatsapp://send?phone=$number&text=$message";
-
-  //   // if (await canLaunchUrl(Uri.parse(url))) {
-  //   //   launchUrl(Uri.parse(url));
-  //   // } else {
-  //   //   // Check if the platform is not mobile (e.g., running on PC)
-  //   //   if (!await canLaunchUrl(Uri.parse('tel:+$number'))) {
-  //   //     print("WhatsApp is not installed on this device.");
-  //   //     return;
-  //   //   }
-
-  //   //   // Launch the default phone dialer with the number
-  //   //   await launch('tel:$number');
-  //   // }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -258,7 +231,7 @@ class _ProductViewState extends State<ProductView> {
                                 launchWhatsapp(
                                     number: widget.contact,
                                     message:
-                                        "Hello, I want to talk about your ad '${widget.name}' on BirdsApp");
+                                        "Hello, I want to talk about your ad '${widget.name}' on Avian Tech Emporium");
                               },
                               child: Container(
                                 height: 40,

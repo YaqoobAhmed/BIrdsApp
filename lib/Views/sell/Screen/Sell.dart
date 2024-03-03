@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 class SellScreen extends StatefulWidget {
   SellScreen({super.key});
@@ -26,6 +29,47 @@ class _SellScreenState extends State<SellScreen> {
   bool isLoading = false;
   File? birdPic;
   bool imageselected = false;
+  XFile? image;
+
+  final picker = ImagePicker();
+
+  // method to pick single image while replacing the photo
+  Future imagePicker() async {
+    image = (await picker.pickImage(source: ImageSource.camera));
+    if (image != null) {
+      final bytes = await image!.readAsBytes();
+      final kb = bytes.length / 1024;
+      final mb = kb / 1024;
+
+      if (kDebugMode) {
+        print('original image size:' + mb.toString());
+      }
+
+      final dir = await path_provider.getTemporaryDirectory();
+      final targetPath = '${dir.absolute.path}/temp.jpg';
+
+      // converting original image to compress it
+      final result = await FlutterImageCompress.compressAndGetFile(
+        image!.path,
+        targetPath,
+        minHeight: 1080, //you can play with this to reduce siz
+        minWidth: 1080,
+        quality: 90, // keep this high to get the original quality of image
+      );
+
+      final data = await result!.readAsBytes();
+      final newKb = data.length / 1024;
+      final newMb = newKb / 1024;
+
+      if (kDebugMode) {
+        print('compress image size:' + newMb.toString());
+      }
+
+      birdPic = File(result.path);
+
+      setState(() {});
+    }
+  }
 
   void AddPost() async {
     String title = titleControlle.text.trim();
@@ -91,9 +135,24 @@ class _SellScreenState extends State<SellScreen> {
       } finally {
         setState(() {
           isLoading = false;
+          clear();
         });
       }
     }
+  }
+
+  void clear() {
+    priceController.clear();
+    contactController.clear();
+    titleControlle.clear();
+    breedControlle.clear();
+    ageController.clear();
+    discriptionController.clear();
+    priceController.clear();
+    addressController.clear();
+    image == null;
+    birdPic == null;
+    imageselected == false;
   }
 
   @override
@@ -128,19 +187,11 @@ class _SellScreenState extends State<SellScreen> {
                   child: Column(
                     children: [
                       InkWell(
-                        onTap: () async {
-                          XFile? selectedImage = await ImagePicker()
-                              .pickImage(source: ImageSource.camera);
-                          if (selectedImage != null) {
-                            File convertedfile = File(selectedImage.path);
-                            setState(() {
-                              imageselected = true;
-                              birdPic = convertedfile;
-                            });
-                            print("Image selected");
-                          } else {
-                            print("Image is not selected");
-                          }
+                        onTap: () {
+                          imagePicker();
+                          setState(() {
+                            imageselected = true;
+                          });
                         },
                         child: CircleAvatar(
                           radius: 40,

@@ -29,8 +29,13 @@ class _RegisterViewState extends State<RegisterView> {
     String password = passwordController.text.trim();
     String cPassword = cPasswordController.text.trim();
     String phone = phoneController.text.trim();
+    String nic = nicController.text.trim();
 
-    if (name == "" || email == "" || password == "" || cPassword == "") {
+    if (name == "" ||
+        email == "" ||
+        nic == "" ||
+        password == "" ||
+        cPassword == "") {
       print("Please fill all fields");
     } else if (password != cPassword) {
       print("Password does not match");
@@ -60,6 +65,7 @@ class _RegisterViewState extends State<RegisterView> {
           "name": name,
           "email": email,
           "phone": phone,
+          "nic": nic
           // "profilePick": donwnloadUrl
         };
         await _firestore
@@ -158,7 +164,26 @@ class _RegisterViewState extends State<RegisterView> {
                           Icons.phone,
                           color: blueColor,
                         ),
-                        labelText: "phone",
+                        labelText: "Contact",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: nicController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: "42101-5XXXXXX-X",
+                        labelStyle: TextStyle(color: blueColor),
+                        iconColor: blueColor,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        suffixIcon: Icon(
+                          Icons.fingerprint,
+                          color: blueColor,
+                        ),
+                        labelText: "NIC",
                       ),
                     ),
                     const SizedBox(

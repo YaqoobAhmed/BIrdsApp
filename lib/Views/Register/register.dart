@@ -62,9 +62,9 @@ class _RegisterViewState extends State<RegisterView> {
         FirebaseFirestore _firestore = FirebaseFirestore.instance;
         Map<String, dynamic> userdata = {
           // "uid": uid,
-          "name": name,
+          "displayName": name,
           "email": email,
-          "phone": phone,
+          "phoneNumber": phone,
           "nic": nic
           // "profilePick": donwnloadUrl
         };
@@ -74,6 +74,15 @@ class _RegisterViewState extends State<RegisterView> {
             .set(userdata);
 
         print("User created");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: blueColor,
+          duration: const Duration(seconds: 4),
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            "$name, Welcome to Avian Tech Emporium",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ));
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const OnboardingScreen()));
       } on FirebaseAuthException catch (ex) {

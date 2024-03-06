@@ -139,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Column(
                       children: [
                         Text(
-                          userData["name"] ?? 'Not Available',
+                          userData["displayName"] ?? 'Not Available',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -180,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             SizedBox(width: 10),
                             Text(
-                              userData["phone"] ?? 'Not Available',
+                              userData["phoneNumber"] ?? 'Not Available',
                               style: TextStyle(fontSize: 20),
                             ),
                           ],

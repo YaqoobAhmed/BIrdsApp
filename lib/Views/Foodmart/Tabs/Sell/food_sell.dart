@@ -53,10 +53,11 @@ class _SellScreenState extends State<FoodSellScreen> {
 
         TaskSnapshot taskSnapshot = await uploadTask;
         String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
-
+        User? currentUser = FirebaseAuth.instance.currentUser;
         //fore storing user info
         FirebaseFirestore _firestore = FirebaseFirestore.instance;
         Map<String, dynamic> foodSellData = {
+          "uid": currentUser!.uid,
           "name": title,
           "contact": contact,
           "price": price,

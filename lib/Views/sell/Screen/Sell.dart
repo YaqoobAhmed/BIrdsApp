@@ -105,8 +105,11 @@ class _SellScreenState extends State<SellScreen> {
         String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
 
         //fore storing user info
+        User? currentUser = FirebaseAuth.instance.currentUser;
+
         FirebaseFirestore _firestore = FirebaseFirestore.instance;
         Map<String, dynamic> sellData = {
+          "uid": currentUser!.uid,
           "name": title,
           "breed": breed,
           "contact": contact,
@@ -150,9 +153,11 @@ class _SellScreenState extends State<SellScreen> {
     discriptionController.clear();
     priceController.clear();
     addressController.clear();
-    image == null;
-    birdPic == null;
-    imageselected == false;
+    image = null; // Fixed the assignment operator
+    birdPic = null; // Fixed the assignment operator
+    setState(() {
+      imageselected = false; // Reset imageselected to false
+    });
   }
 
   @override

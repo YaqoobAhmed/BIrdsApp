@@ -52,9 +52,9 @@ class _SellScreenState extends State<SellScreen> {
       final result = await FlutterImageCompress.compressAndGetFile(
         image!.path,
         targetPath,
-        minHeight: 1080, //you can play with this to reduce siz
-        minWidth: 1080,
-        quality: 90, // keep this high to get the original quality of image
+        minHeight: 800, //you can play with this to reduce siz
+        minWidth: 800,
+        quality: 80, // keep this high to get the original quality of image
       );
 
       final data = await result!.readAsBytes();

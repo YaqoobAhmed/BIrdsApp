@@ -28,7 +28,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     SellScreen(),
     ScanScreen(),
     FoodMartScreen(),
-    ArticleScreen(),
+    ArticleScreen()
   ];
 
   @override

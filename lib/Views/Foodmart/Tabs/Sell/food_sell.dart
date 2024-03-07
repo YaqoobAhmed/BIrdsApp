@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 class FoodSellScreen extends StatefulWidget {
   FoodSellScreen({super.key});
@@ -24,6 +27,48 @@ class _SellScreenState extends State<FoodSellScreen> {
   bool isLoading = false;
   File? foodPic;
   bool imageselected = false;
+
+  XFile? image;
+
+  final picker = ImagePicker();
+
+  // method to pick single image while replacing the photo
+  Future imagePicker() async {
+    image = (await picker.pickImage(source: ImageSource.camera));
+    if (image != null) {
+      final bytes = await image!.readAsBytes();
+      final kb = bytes.length / 1024;
+      final mb = kb / 1024;
+
+      if (kDebugMode) {
+        print('original image size:' + mb.toString());
+      }
+
+      final dir = await path_provider.getTemporaryDirectory();
+      final targetPath = '${dir.absolute.path}/temp.jpg';
+
+      // converting original image to compress it
+      final result = await FlutterImageCompress.compressAndGetFile(
+        image!.path,
+        targetPath,
+        minHeight: 800, //you can play with this to reduce siz
+        minWidth: 800,
+        quality: 80, // keep this high to get the original quality of image
+      );
+
+      final data = await result!.readAsBytes();
+      final newKb = data.length / 1024;
+      final newMb = newKb / 1024;
+
+      if (kDebugMode) {
+        print('compress image size:' + newMb.toString());
+      }
+
+      foodPic = File(result.path);
+
+      setState(() {});
+    }
+  }
 
   void AddPost() async {
     String title = titleControlle.text.trim();
@@ -118,18 +163,10 @@ class _SellScreenState extends State<FoodSellScreen> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          XFile? selectedImage = await ImagePicker()
-                              .pickImage(source: ImageSource.camera);
-                          if (selectedImage != null) {
-                            File convertedfile = File(selectedImage.path);
-                            setState(() {
-                              imageselected = true;
-                              foodPic = convertedfile;
-                            });
-                            print("Image selected");
-                          } else {
-                            print("Image is not selected");
-                          }
+                          imagePicker();
+                          setState(() {
+                            imageselected = true;
+                          });
                         },
                         child: CircleAvatar(
                           radius: 40,

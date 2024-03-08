@@ -106,9 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
-                          Positioned(
-                            top: 35,
-                            left: 150,
+                          Center(
                             child: CircleAvatar(
                               radius: 46,
                               backgroundColor: Colors.black,
@@ -118,19 +116,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Center(
                                   child: Icon(
                                     Icons.person,
-                                    size: 50,
+                                    size: 60,
                                     color: blueColor,
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 35,
-                            right: 150,
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: blueColor,
                             ),
                           ),
                         ],

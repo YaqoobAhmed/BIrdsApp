@@ -30,7 +30,7 @@ class FoodMartScreen extends StatelessWidget {
             bottom: TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorWeight: 3,
-                indicatorColor: Colors.black,
+                indicatorColor: const Color(0xfff5d04f),
                 tabs: [
                   Tab(
                     icon: Icon(

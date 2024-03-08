@@ -94,9 +94,9 @@ class _PostArticleScreenState extends State<PostArticleScreen> {
       FirebaseFirestore _firestore = FirebaseFirestore.instance;
       Map<String, dynamic> articleData = {
         "uid": currentUser!.uid,
-        "name": title,
+        "title": title,
         "description": description,
-        "foodPic": downloadUrl
+        "articlePic": downloadUrl
       };
       await _firestore.collection("articlePosts").add(articleData);
 

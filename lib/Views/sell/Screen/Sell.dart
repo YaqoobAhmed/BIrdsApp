@@ -34,8 +34,8 @@ class _SellScreenState extends State<SellScreen> {
   final picker = ImagePicker();
 
   // method to pick single image while replacing the photo
-  Future imagePicker() async {
-    image = (await picker.pickImage(source: ImageSource.camera));
+  Future imagePicker(ImageSource source) async {
+    image = (await picker.pickImage(source: source));
     if (image != null) {
       final bytes = await image!.readAsBytes();
       final kb = bytes.length / 1024;
@@ -69,6 +69,67 @@ class _SellScreenState extends State<SellScreen> {
 
       setState(() {});
     }
+  }
+
+  Future<void> _showImageSourceDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Image Source'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            await imagePicker(ImageSource.camera);
+                            setState(() {
+                              imageselected = true;
+                            });
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(Icons.camera_alt),
+                          color: blueColor,
+                        ),
+                        Text(
+                          "Camera",
+                          style: TextStyle(color: blueColor),
+                        )
+                      ],
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.17),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            await imagePicker(ImageSource.gallery);
+                            setState(() {
+                              imageselected = true;
+                            });
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(Icons.photo_library),
+                          color: blueColor,
+                        ),
+                        Text(
+                          "Gallery",
+                          style: TextStyle(color: blueColor),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void AddPost() async {
@@ -193,10 +254,7 @@ class _SellScreenState extends State<SellScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          imagePicker();
-                          setState(() {
-                            imageselected = true;
-                          });
+                          _showImageSourceDialog(context);
                         },
                         child: CircleAvatar(
                           radius: 40,
@@ -215,11 +273,14 @@ class _SellScreenState extends State<SellScreen> {
                       SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        "Upload a Picture",
-                        style: TextStyle(
-                          color: blueColor,
-                          fontWeight: FontWeight.bold,
+                      GestureDetector(
+                        onTap: () => _showImageSourceDialog(context),
+                        child: Text(
+                          "Upload a Picture",
+                          style: TextStyle(
+                            color: blueColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],

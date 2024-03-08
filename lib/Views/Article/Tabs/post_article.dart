@@ -158,7 +158,7 @@ class _PostArticleScreenState extends State<PostArticleScreen> {
                         )
                       ],
                     ),
-                    SizedBox(width: 16),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.17),
                     Column(
                       children: [
                         IconButton(

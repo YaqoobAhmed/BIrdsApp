@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         backgroundColor: blueColor,
         title: Text(
-          "Settings",
+          "Profile",
           style: TextStyle(color: whiteColor),
         ),
         centerTitle: true,
@@ -197,32 +197,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            await FirebaseAuth.instance.signOut();
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginView(),
-                              ),
-                              (route) => false,
-                            );
-                          },
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Text(
-                                "Signout",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Icon(Icons.logout),
-                            ],
-                          ),
                         ),
                       ],
                     ),

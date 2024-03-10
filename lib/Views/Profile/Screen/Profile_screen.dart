@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/Views/Profile/widget/signout_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase/Views/Login/login.dart';
 import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/colors.dart';
 
@@ -51,15 +51,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
         actions: [
           GestureDetector(
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginView(),
-                  ),
-                  (route) => false,
-                );
+              onTap: () {
+                showSignoutDialog(context);
               },
               child: Padding(
                 padding: const EdgeInsets.all(10.0),

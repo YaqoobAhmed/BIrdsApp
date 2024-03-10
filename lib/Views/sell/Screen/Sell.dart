@@ -135,11 +135,15 @@ class _SellScreenState extends State<SellScreen> {
   void AddPost() async {
     String title = titleControlle.text.trim();
     String breed = breedControlle.text.trim();
-    var contact = contactController.text.trim();
-    var age = ageController.text.trim();
-    var price = priceController.text.trim();
+    String age = ageController.text.trim();
+    String price = priceController.text.trim();
     String address = addressController.text.trim();
     String discription = discriptionController.text.trim();
+    String contact = contactController.text.trim();
+
+    // Get the current user's phone number
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    // String contact = FirebaseAuth.instance.currentUser?.phoneNumber ?? '';
 
     if (title == "" ||
         breed == "" ||
@@ -149,6 +153,8 @@ class _SellScreenState extends State<SellScreen> {
         address == "" ||
         discription == "" ||
         birdPic == null) {
+      // print("${currentUser!.phoneNumber}");
+      // print("${contact}");
       print("Please fill all fields");
     } else {
       try {
@@ -165,12 +171,13 @@ class _SellScreenState extends State<SellScreen> {
         TaskSnapshot taskSnapshot = await uploadTask;
         String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
 
-        //fore storing user info
-        User? currentUser = FirebaseAuth.instance.currentUser;
+        // Store user info
+        print("${currentUser!.phoneNumber}");
+        print("${contact}");
 
         FirebaseFirestore _firestore = FirebaseFirestore.instance;
         Map<String, dynamic> sellData = {
-          "uid": currentUser!.uid,
+          "uid": currentUser.uid,
           "name": title,
           "breed": breed,
           "contact": contact,
@@ -184,7 +191,7 @@ class _SellScreenState extends State<SellScreen> {
 
         print("Add posted");
 
-        //show bottom snackbar
+        // Show bottom snackbar
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: blueColor,
           duration: const Duration(seconds: 4),
@@ -207,7 +214,7 @@ class _SellScreenState extends State<SellScreen> {
 
   void clear() {
     priceController.clear();
-    contactController.clear();
+    // contactController.clear();
     titleControlle.clear();
     breedControlle.clear();
     ageController.clear();

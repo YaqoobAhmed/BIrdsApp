@@ -1,5 +1,6 @@
 import 'package:firebase/Views/Login/login.dart';
 import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
+import 'package:firebase/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return MaterialApp(
+      theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              centerTitle: true,
+              color: blueColor,
+              foregroundColor: whiteColor)),
       debugShowCheckedModeBanner: false,
       home: user != null ? OnboardingScreen() : LoginView(),
     );

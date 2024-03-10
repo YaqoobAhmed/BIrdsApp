@@ -9,11 +9,9 @@ import 'package:firebase/navBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-User currentUser = FirebaseAuth.instance.currentUser!;
-
 class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key});
-
+  NavigationDrawer({Key? key});
+  final User currentUser = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -21,200 +19,129 @@ class NavigationDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildHeader(context),
-            buildMenuItems(context),
+            GestureDetector(
+              onTap: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(),
+                  )),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 1,
+                color: blueColor,
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top, bottom: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.black,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey.shade300,
+                          radius: 38,
+                          child: Center(
+                            child: Icon(
+                              Icons.person,
+                              size: 60,
+                              color: blueColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      currentUser.email ?? 'Not Available',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  ListTile(
+                    onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(),
+                        )),
+                    leading: Icon(Icons.person),
+                    title: Text("Profile"),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      print("${currentUser.uid}");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyAds(
+                              currentUserUid: currentUser.uid,
+                            ),
+                          ));
+                    },
+                    leading: Icon(Icons.sell),
+                    title: Text("My Ads"),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyItems(
+                              currentUserUid: currentUser.uid,
+                            ),
+                          ));
+                    },
+                    leading: Icon(Icons.store),
+                    title: Text("My Items"),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      print("${currentUser.uid}");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyArticles(
+                              currentUserUid: currentUser.uid,
+                            ),
+                          ));
+                    },
+                    leading: Icon(Icons.article),
+                    title: Text("My Articles"),
+                  ),
+                  Divider(
+                    indent: 20,
+                    endIndent: 20,
+                    color: blueColor,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.35,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      showSignoutDialog(context);
+                    },
+                    leading: Icon(Icons.logout),
+                    title: Text("Signout"),
+                  ),
+                ],
+              ),
+            )
           ],
         ));
   }
 }
-
-Widget buildHeader(BuildContext context) => GestureDetector(
-      onTap: () => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProfileScreen(),
-          )),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.2,
-        width: MediaQuery.of(context).size.width * 1,
-        color: blueColor,
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, bottom: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.black,
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey.shade300,
-                  radius: 38,
-                  child: Center(
-                    child: Icon(
-                      Icons.person,
-                      size: 60,
-                      color: blueColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              currentUser.email ?? 'Not Available',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-      ),
-    );
-
-Widget buildMenuItems(BuildContext context) => Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        children: [
-          ListTile(
-            onTap: () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProfileScreen(),
-                )),
-            leading: Icon(Icons.person),
-            title: Text("Profile"),
-          ),
-          ListTile(
-            onTap: () {
-              print("${currentUser.uid}");
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyAds(
-                      currentUserUid: currentUser.uid,
-                    ),
-                  ));
-            },
-            leading: Icon(Icons.sell),
-            title: Text("My Ads"),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyItems(
-                      currentUserUid: currentUser.uid,
-                    ),
-                  ));
-            },
-            leading: Icon(Icons.store),
-            title: Text("My Items"),
-          ),
-          ListTile(
-            onTap: () {
-              print("${currentUser.uid}");
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyArticles(
-                      currentUserUid: currentUser.uid,
-                    ),
-                  ));
-            },
-            leading: Icon(Icons.article),
-            title: Text("My Articles"),
-          ),
-          Divider(
-            indent: 20,
-            endIndent: 20,
-            color: blueColor,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
-          ),
-          ListTile(
-            onTap: () {
-              showSignoutDialog(context);
-            },
-            leading: Icon(Icons.logout),
-            title: Text("Signout"),
-          ),
-
-          // ListTile(
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => BottomNavBar(initialTabIndex: 0),
-          //       ),
-          //     );
-          //   },
-          //   leading: Icon(
-          //     Icons.shopping_bag,
-          //   ),
-          //   title: Text("Buy"),
-          // ),
-          // ListTile(
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => BottomNavBar(initialTabIndex: 1),
-          //       ),
-          //     );
-          //   },
-          //   leading: Icon(Icons.sell),
-          //   title: Text("Sell"),
-          // ),
-          // ListTile(
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => BottomNavBar(initialTabIndex: 2),
-          //       ),
-          //     );
-          //   },
-          //   leading: Icon(Icons.camera_alt),
-          //   title: Text("Scan"),
-          // ),
-          // ListTile(
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => BottomNavBar(initialTabIndex: 3),
-          //       ),
-          //     );
-          //   },
-          //   leading: Icon(Icons.store),
-          //   title: Text("Mart"),
-          // ),
-          // ListTile(
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => BottomNavBar(initialTabIndex: 4),
-          //       ),
-          //     );
-          //   },
-          //   leading: Icon(Icons.article),
-          //   title: Text("Articles"),
-          // ),
-        ],
-      ),
-    );
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({Key? key});

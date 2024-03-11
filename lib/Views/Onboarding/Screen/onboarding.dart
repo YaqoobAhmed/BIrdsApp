@@ -1,6 +1,6 @@
-import 'package:firebase/Views/My_Ads/my_ads.dart';
-import 'package:firebase/Views/My_Ads/my_articles.dart';
-import 'package:firebase/Views/My_Ads/my_items.dart';
+import 'package:firebase/Views/My_Ads/Screens/my_ads.dart';
+import 'package:firebase/Views/My_Ads/Screens/my_articles.dart';
+import 'package:firebase/Views/My_Ads/Screens/my_items.dart';
 import 'package:firebase/Views/Onboarding/Widget/onboard_container.dart';
 import 'package:firebase/Views/Profile/Screen/Profile_screen.dart';
 import 'package:firebase/Views/Profile/widget/signout_dialog.dart';

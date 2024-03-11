@@ -214,7 +214,7 @@ class _SellScreenState extends State<SellScreen> {
 
   void clear() {
     priceController.clear();
-    // contactController.clear();
+    contactController.clear();
     titleControlle.clear();
     breedControlle.clear();
     ageController.clear();
@@ -250,6 +250,7 @@ class _SellScreenState extends State<SellScreen> {
       body: Stack(
         children: [
           SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

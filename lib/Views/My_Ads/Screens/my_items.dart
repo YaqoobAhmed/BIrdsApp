@@ -40,6 +40,8 @@ class MyItems extends StatelessWidget {
                 final imageUrl = postMap['foodPic'] ?? '';
                 final name = postMap['name'] ?? 'Name not available';
                 final price = postMap['price'] ?? 'Price not available';
+                final discription =
+                    postMap['discription'] ?? 'Discription not available';
 
                 void deleteItem() {
                   FirebaseFirestore.instance
@@ -61,67 +63,122 @@ class MyItems extends StatelessWidget {
                 }
 
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FoodProductView(
-                          image: imageUrl,
-                          name: name,
-                          description: postMap["discription"],
-                          address: postMap["address"],
-                          price: price,
-                          contact: postMap["contact"],
-                        ),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: ListTile(
-                      leading: imageUrl.isNotEmpty
-                          ? Image.network(
-                              imageUrl,
-                              fit: BoxFit.cover,
-                            )
-                          : Placeholder(), // Show a placeholder if no image available
-                      title: Text(
-                        name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Text(
-                        "\$$price",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: blueColor,
-                        ),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: editItem,
-                            icon: Icon(Icons.edit),
-                            color: Colors.blue,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FoodProductView(
+                            image: imageUrl,
+                            name: name,
+                            description: postMap["discription"],
+                            address: postMap["address"],
+                            price: price,
+                            contact: postMap["contact"],
                           ),
-                          IconButton(
-                            onPressed: deleteItem,
-                            icon: Icon(Icons.delete),
-                            color: Colors.red,
+                        ),
+                      );
+                    },
+                    child: Card(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (imageUrl.isNotEmpty)
+                            Container(
+                              height: 200,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(imageUrl),
+                                  fit: BoxFit.contain,
+                                ),
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(15),
+                                ),
+                              ),
+                            ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  discription,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  "\$$price",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: blueColor,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: editItem,
+                                      child: Text(
+                                        'Edit',
+                                        style: TextStyle(
+                                            fontSize: 16, color: whiteColor),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: blueColor,
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 12),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: deleteItem,
+                                      child: Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                            fontSize: 16, color: whiteColor),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red.shade500,
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 12),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                );
+                    ));
               },
             );
           }

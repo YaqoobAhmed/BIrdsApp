@@ -1,67 +1,63 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/Views/product_view/Screen/product_view.dart';
 import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
 
-class BuyScreen extends StatelessWidget {
-  Stream<QuerySnapshot> fetchData() async* {
-    int retries = 0;
-    const maxRetries = 5;
-    const baseDelay = Duration(seconds: 1);
+class BuyScreen extends StatefulWidget {
+  @override
+  _BuyScreenState createState() => _BuyScreenState();
+}
 
-    while (true) {
-      try {
-        yield* FirebaseFirestore.instance.collection("adds").snapshots();
-        return;
-      } catch (e) {
-        if (retries >= maxRetries) {
-          throw Exception("Failed after $maxRetries retries: $e");
-        }
-        final delay = baseDelay * (retries + 1);
-        await Future.delayed(delay);
-        retries++;
-      }
-    }
+class _BuyScreenState extends State<BuyScreen> {
+  TextEditingController searchController = TextEditingController();
+  bool _isSearching = false;
+
+  Stream<QuerySnapshot> fetchData(String query) {
+    return FirebaseFirestore.instance
+        .collection("adds")
+        .where("name", isGreaterThanOrEqualTo: query)
+        .where("name", isLessThan: query + 'z')
+        .snapshots();
+  }
+
+  Widget _buildSearchField() {
+    return TextFormField(
+      controller: searchController,
+      style: TextStyle(color: whiteColor),
+      autofocus: true,
+      decoration: InputDecoration(
+        hintText: 'Search Birds...',
+        border: InputBorder.none,
+      ),
+      onChanged: (query) {
+        setState(() {
+          fetchData(query);
+        });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OnboardingScreen(),
-              ),
-            );
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: whiteColor,
-          ),
-        ),
-        backgroundColor: blueColor,
-        title: Text(
-          "Buy Birds",
-          style: TextStyle(color: whiteColor),
-        ),
-        centerTitle: true,
+        title: _isSearching ? _buildSearchField() : Text('Buy Birds'),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.search,
-              color: Colors.white,
-              size: 30,
-            ),
-          )
+            icon: Icon(_isSearching ? Icons.cancel : Icons.search),
+            onPressed: () {
+              setState(() {
+                _isSearching = !_isSearching;
+                if (!_isSearching) {
+                  searchController.clear();
+                }
+              });
+            },
+          ),
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: fetchData(),
+        stream: fetchData(searchController.text),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

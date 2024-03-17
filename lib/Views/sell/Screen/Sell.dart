@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/colors.dart';
+import 'package:firebase/provider/phone_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
@@ -21,7 +23,7 @@ class SellScreen extends StatefulWidget {
 class _SellScreenState extends State<SellScreen> {
   TextEditingController titleControlle = TextEditingController();
   TextEditingController breedControlle = TextEditingController();
-  TextEditingController contactController = TextEditingController();
+  // TextEditingController contactController = TextEditingController().
   TextEditingController ageController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -133,13 +135,16 @@ class _SellScreenState extends State<SellScreen> {
   }
 
   void AddPost() async {
+    PhoneProvider phoneProvider =
+        Provider.of<PhoneProvider>(context, listen: false);
     String title = titleControlle.text.trim();
     String breed = breedControlle.text.trim();
     String age = ageController.text.trim();
     String price = priceController.text.trim();
     String address = addressController.text.trim();
     String discription = discriptionController.text.trim();
-    String contact = contactController.text.trim();
+    // String contact = contactController.text.trim();
+    String? contact = phoneProvider.phoneNumber;
 
     // Get the current user's phone number
     User? currentUser = FirebaseAuth.instance.currentUser;
@@ -214,7 +219,7 @@ class _SellScreenState extends State<SellScreen> {
 
   void clear() {
     priceController.clear();
-    contactController.clear();
+    // contactController.clear();
     titleControlle.clear();
     breedControlle.clear();
     ageController.clear();
@@ -334,14 +339,14 @@ class _SellScreenState extends State<SellScreen> {
                                 labelText: "Discription:",
                               ),
                             ),
-                            TextFormField(
-                              controller: contactController,
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(color: blueColor),
-                                labelText: "Contact:",
-                              ),
-                            ),
+                            // TextFormField(
+                            //   controller: contactController,
+                            //   keyboardType: TextInputType.phone,
+                            //   decoration: InputDecoration(
+                            //     labelStyle: TextStyle(color: blueColor),
+                            //     labelText: "Contact:",
+                            //   ),
+                            // ),
                             TextFormField(
                               controller: priceController,
                               keyboardType: TextInputType.number,

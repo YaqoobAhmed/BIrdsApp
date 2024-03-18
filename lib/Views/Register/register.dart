@@ -129,7 +129,6 @@ class _RegisterViewState extends State<RegisterView> {
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(color: blueColor),
-                        iconColor: blueColor,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16)),
                         suffixIcon: Icon(
@@ -143,11 +142,12 @@ class _RegisterViewState extends State<RegisterView> {
                       height: 10,
                     ),
                     TextFormField(
+                      enabled: false,
+                      readOnly: true,
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(color: blueColor),
-                        iconColor: blueColor,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16)),
                         suffixIcon: Icon(
@@ -165,7 +165,6 @@ class _RegisterViewState extends State<RegisterView> {
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(color: blueColor),
-                        iconColor: blueColor,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16)),
                         suffixIcon: Icon(
@@ -184,11 +183,10 @@ class _RegisterViewState extends State<RegisterView> {
                       decoration: InputDecoration(
                         hintText: "42101-5XXXXXX-X",
                         labelStyle: TextStyle(color: blueColor),
-                        iconColor: blueColor,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16)),
                         suffixIcon: Icon(
-                          Icons.fingerprint,
+                          Icons.credit_card,
                           color: blueColor,
                         ),
                         labelText: "NIC",
@@ -203,7 +201,6 @@ class _RegisterViewState extends State<RegisterView> {
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(color: blueColor),
-                        iconColor: blueColor,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16)),
                         suffixIcon: Icon(
@@ -222,7 +219,6 @@ class _RegisterViewState extends State<RegisterView> {
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(color: blueColor),
-                        iconColor: blueColor,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16)),
                         suffixIcon: Icon(

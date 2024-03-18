@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/Views/Profile/Screen/edit_profile_screen.dart';
 import 'package:firebase/Views/Profile/widget/signout_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -193,6 +194,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditProfileScreen(
+                                uId: currentUser.email!,
+                                displayName:
+                                    userData["displayName"] ?? 'Not Available',
+                                email: userData["email"] ?? 'Not Available',
+                                nic: userData["nic"] ?? 'Not Available',
+                                phoneNumber:
+                                    userData["phoneNumber"] ?? 'Not Available',
+                              ),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.edit))
                   ],
                 ),
               );

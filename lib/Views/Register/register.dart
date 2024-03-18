@@ -2,10 +2,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/colors.dart';
-import 'package:firebase/provider/phone_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -98,7 +96,6 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    PhoneProvider phoneProvider = Provider.of<PhoneProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -164,10 +161,6 @@ class _RegisterViewState extends State<RegisterView> {
                       height: 10,
                     ),
                     TextFormField(
-                      onFieldSubmitted: (value) {
-                        // when user submitted the phone number then it will save it into provider
-                        phoneProvider.setPhoneNumber(value);
-                      },
                       controller: phoneController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
@@ -281,8 +274,6 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 }
-
-
 
 
 

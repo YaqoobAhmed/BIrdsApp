@@ -3,15 +3,29 @@ import 'package:firebase/Views/Foodmart/Tabs/Buy/food_product_view.dart';
 import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
 
-class FoodBuyScreen extends StatelessWidget {
-  Stream<QuerySnapshot> fetchData() async* {
+class FoodBuyScreen extends StatefulWidget {
+  FoodBuyScreen({
+    super.key,
+    required this.query,
+  });
+  final String query;
+  @override
+  State<FoodBuyScreen> createState() => _FoodBuyScreenState();
+}
+
+class _FoodBuyScreenState extends State<FoodBuyScreen> {
+  Stream<QuerySnapshot> fetchData(String query) async* {
     int retries = 0;
     const maxRetries = 5;
     const baseDelay = Duration(seconds: 1);
 
     while (true) {
       try {
-        yield* FirebaseFirestore.instance.collection("FoodAdds").snapshots();
+        yield* FirebaseFirestore.instance
+            .collection("FoodAdds")
+            .where("name", isGreaterThanOrEqualTo: query)
+            .where("name", isLessThan: query + 'z')
+            .snapshots();
         return;
       } catch (e) {
         if (retries >= maxRetries) {
@@ -28,7 +42,7 @@ class FoodBuyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: fetchData(),
+        stream: fetchData(widget.query),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

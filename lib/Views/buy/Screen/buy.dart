@@ -12,12 +12,28 @@ class _BuyScreenState extends State<BuyScreen> {
   TextEditingController searchController = TextEditingController();
   bool _isSearching = false;
 
-  Stream<QuerySnapshot> fetchData(String query) {
-    return FirebaseFirestore.instance
-        .collection("adds")
-        .where("name", isGreaterThanOrEqualTo: query)
-        .where("name", isLessThan: query + 'z')
-        .snapshots();
+  Stream<QuerySnapshot> fetchData(String query) async* {
+    int retries = 0;
+    const maxRetries = 5;
+    const baseDelay = Duration(seconds: 1);
+
+    while (true) {
+      try {
+        yield* FirebaseFirestore.instance
+            .collection("adds")
+            .where("name", isGreaterThanOrEqualTo: query)
+            .where("name", isLessThan: query + 'z')
+            .snapshots();
+        return;
+      } catch (e) {
+        if (retries >= maxRetries) {
+          throw Exception("Failed after $maxRetries retries: $e");
+        }
+        final delay = baseDelay * (retries + 1);
+        await Future.delayed(delay);
+        retries++;
+      }
+    }
   }
 
   Widget _buildSearchField() {

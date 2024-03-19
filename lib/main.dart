@@ -24,20 +24,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return MultiProvider(
-       providers: [
+        providers: [
           ChangeNotifierProvider(create: (context) => PhoneProvider()),
         ],
-      builder: (context, child) {
-        return MaterialApp(
-          theme: ThemeData(
-              appBarTheme: AppBarTheme(
-                  centerTitle: true,
-                  color: blueColor,
-                  foregroundColor: whiteColor)),
-          debugShowCheckedModeBanner: false,
-          home: user != null ? OnboardingScreen() : LoginView(),
-        );
-      }
-    );
+        builder: (context, child) {
+          return MaterialApp(
+            theme: ThemeData(
+                appBarTheme: AppBarTheme(
+                    centerTitle: true,
+                    color: blueColor,
+                    titleTextStyle: TextStyle(
+                      fontFamily: "CarterOne",
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    foregroundColor: whiteColor)),
+            debugShowCheckedModeBanner: false,
+            home: user != null ? OnboardingScreen() : LoginView(),
+          );
+        });
   }
 }

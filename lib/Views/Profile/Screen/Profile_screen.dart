@@ -84,6 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               final userData = snapshot.data!.data() as Map<String, dynamic>;
               return SingleChildScrollView(
                 child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.2,
@@ -194,24 +195,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditProfileScreen(
-                                uId: currentUser.email!,
-                                displayName:
-                                    userData["displayName"] ?? 'Not Available',
-                                email: userData["email"] ?? 'Not Available',
-                                nic: userData["nic"] ?? 'Not Available',
-                                phoneNumber:
-                                    userData["phoneNumber"] ?? 'Not Available',
-                              ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditProfileScreen(
+                              uId: currentUser.email!,
+                              displayName:
+                                  userData["displayName"] ?? 'Not Available',
+                              email: userData["email"] ?? 'Not Available',
+                              nic: userData["nic"] ?? 'Not Available',
+                              phoneNumber:
+                                  userData["phoneNumber"] ?? 'Not Available',
                             ),
-                          );
-                        },
-                        icon: Icon(Icons.edit))
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: blueColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Edit Profile",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               );

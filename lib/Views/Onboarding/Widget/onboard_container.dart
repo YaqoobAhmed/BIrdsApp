@@ -1,17 +1,26 @@
 import 'package:firebase/colors.dart';
+import 'package:firebase/navBar.dart';
 import 'package:flutter/material.dart';
 
 class OnboardContainer extends StatelessWidget {
   OnboardContainer(
-      {super.key, required this.icon, required this.text, this.onTap});
+      {super.key,
+      required this.icon,
+      required this.text,
+      required this.initialTabIndex});
   final Icon icon;
   final String text;
-  final Function()? onTap;
+  final int initialTabIndex;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavBar(initialTabIndex: initialTabIndex),
+        ),
+      ),
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

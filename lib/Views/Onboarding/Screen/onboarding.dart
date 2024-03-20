@@ -6,7 +6,6 @@ import 'package:firebase/Views/Onboarding/Widget/onboard_container.dart';
 import 'package:firebase/Views/Profile/Screen/Profile_screen.dart';
 import 'package:firebase/Views/Profile/widget/signout_dialog.dart';
 import 'package:firebase/colors.dart';
-import 'package:firebase/navBar.dart';
 import 'package:firebase/provider/phone_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +74,7 @@ class NavigationDrawer extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    onTap: () => Navigator.pushReplacement(
+                    onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProfileScreen(),
@@ -205,35 +204,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        InkWell(
-                          onTap: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    BottomNavBar(initialTabIndex: 0),
-                              ),
-                            ),
-                          },
-                          child: OnboardContainer(
-                            icon: Icon(
-                              Icons.shopping_bag,
-                              color: whiteColor,
-                              size: 42.5,
-                            ),
-                            text: 'Buy',
+                        OnboardContainer(
+                          initialTabIndex: 0,
+                          icon: Icon(
+                            Icons.shopping_bag,
+                            color: whiteColor,
+                            size: 42.5,
                           ),
+                          text: 'Buy',
                         ),
                         OnboardContainer(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    BottomNavBar(initialTabIndex: 1),
-                              ),
-                            );
-                          },
+                          initialTabIndex: 1,
                           icon: Icon(
                             Icons.sell,
                             color: whiteColor,
@@ -250,13 +231,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         OnboardContainer(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  BottomNavBar(initialTabIndex: 2),
-                            ),
-                          ),
+                          initialTabIndex: 2,
                           icon: Icon(
                             Icons.camera_alt,
                             color: whiteColor,
@@ -273,13 +248,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         OnboardContainer(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  BottomNavBar(initialTabIndex: 3),
-                            ),
-                          ),
+                          initialTabIndex: 3,
                           icon: Icon(
                             Icons.store,
                             color: whiteColor,
@@ -288,13 +257,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           text: 'Food Mart',
                         ),
                         OnboardContainer(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  BottomNavBar(initialTabIndex: 4),
-                            ),
-                          ),
+                          initialTabIndex: 4,
                           icon: Icon(
                             Icons.article,
                             color: whiteColor,

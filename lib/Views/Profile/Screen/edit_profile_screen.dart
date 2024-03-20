@@ -73,8 +73,9 @@ class _EditAdScreenState extends State<EditProfileScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: Column(
                         children: [
-                          if (ShowPasswordFields == false)
-                            Column(
+                          Visibility(
+                            visible: ShowPasswordFields == false,
+                            child: Column(
                               children: [
                                 TextFormField(
                                   controller: _nameController,
@@ -149,8 +150,10 @@ class _EditAdScreenState extends State<EditProfileScreen> {
                                 ),
                               ],
                             ),
-                          if (ShowPasswordFields)
-                            Column(
+                          ),
+                          Visibility(
+                            visible: ShowPasswordFields,
+                            child: Column(
                               children: [
                                 const SizedBox(
                                   height: 15,
@@ -208,6 +211,7 @@ class _EditAdScreenState extends State<EditProfileScreen> {
                                 ),
                               ],
                             ),
+                          ),
                           SizedBox(
                             height: 15,
                           ),

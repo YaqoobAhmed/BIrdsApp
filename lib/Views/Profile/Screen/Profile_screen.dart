@@ -3,7 +3,6 @@ import 'package:firebase/Views/Profile/Screen/edit_profile_screen.dart';
 import 'package:firebase/Views/Profile/widget/signout_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/colors.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -30,20 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OnboardingScreen(),
-              ),
-            );
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: whiteColor,
-          ),
-        ),
         backgroundColor: blueColor,
         title: Text(
           "Profile",

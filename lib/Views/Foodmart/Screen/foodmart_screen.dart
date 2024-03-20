@@ -41,21 +41,22 @@ class _FoodMartScreenState extends State<FoodMartScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: _isSearching ? _buildSearchField() : const Text('Food Mart'),
-          actions: _selectedIndex == 0
-              ? [
-                  IconButton(
-                    icon: Icon(_isSearching ? Icons.cancel : Icons.search),
-                    onPressed: () {
-                      setState(() {
-                        _isSearching = !_isSearching;
-                        if (!_isSearching) {
-                          searchController.clear();
-                        }
-                      });
-                    },
-                  ),
-                ]
-              : null,
+          actions: [
+            Visibility(
+              visible: _selectedIndex == 0,
+              child: IconButton(
+                icon: Icon(_isSearching ? Icons.cancel : Icons.search),
+                onPressed: () {
+                  setState(() {
+                    _isSearching = !_isSearching;
+                    if (!_isSearching) {
+                      searchController.clear();
+                    }
+                  });
+                },
+              ),
+            ),
+          ],
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorWeight: 3,

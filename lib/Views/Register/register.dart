@@ -142,8 +142,6 @@ class _RegisterViewState extends State<RegisterView> {
                       height: 10,
                     ),
                     TextFormField(
-                      enabled: false,
-                      readOnly: true,
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(

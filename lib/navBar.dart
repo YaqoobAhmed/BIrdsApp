@@ -1,6 +1,6 @@
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
-import 'package:firebase/Scan/Screen/scan.dart';
+import 'package:firebase/Views/Scan/Screen/scan.dart';
 import 'package:firebase/Views/Article/Screen_article/article_screen.dart';
 import 'package:firebase/Views/Foodmart/Screen/foodmart_screen.dart';
 import 'package:firebase/Views/buy/Screen/buy.dart';

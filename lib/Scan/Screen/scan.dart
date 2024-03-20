@@ -22,7 +22,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Future<void> _selectImageFromCamera() async {
     XFile? selectedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (selectedImage != null) {
       File convertedfile = File(selectedImage.path);

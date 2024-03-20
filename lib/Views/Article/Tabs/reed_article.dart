@@ -30,7 +30,8 @@ class ArticleReadScreen extends StatelessWidget {
                       articleData["title"] ?? 'Title Is Not Available';
                   final description = articleData["description"] ??
                       'Description Is Not Available';
-                  final imageUrl = articleData['articlePic'] ?? '';
+                  final imageUrl =
+                      articleData['articlePic'] ?? 'Picture Is not Available';
                   return Column(
                     children: [
                       if (imageUrl.isNotEmpty) // Check if imageUrl is not empty

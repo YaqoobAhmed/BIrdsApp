@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/colors.dart';
+import 'package:firebase/provider/phone_provider.dart';
 // import 'package:firebase/provider/phone_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -22,7 +24,7 @@ class FoodSellScreen extends StatefulWidget {
 
 class _SellScreenState extends State<FoodSellScreen> {
   TextEditingController titleControlle = TextEditingController();
-  TextEditingController contactController = TextEditingController();
+  // TextEditingController contactController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController discriptionController = TextEditingController();
@@ -133,14 +135,13 @@ class _SellScreenState extends State<FoodSellScreen> {
   }
 
   void AddPost() async {
-    // PhoneProvider phoneProvider =
-    //     Provider.of<PhoneProvider>(context, listen: false);
+    PhoneProvider phoneProvider =
+        Provider.of<PhoneProvider>(context, listen: false);
     String title = titleControlle.text.trim();
-    var contact = contactController.text.trim();
     var price = priceController.text.trim();
     String address = addressController.text.trim();
     String discription = discriptionController.text.trim();
-    // String? contact = phoneProvider.phoneNumber;
+    String? contact = phoneProvider.phoneNumber;
 
     if (title == "" ||
         contact == "" ||
@@ -164,11 +165,11 @@ class _SellScreenState extends State<FoodSellScreen> {
         TaskSnapshot taskSnapshot = await uploadTask;
         String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
         User? currentUser = FirebaseAuth.instance.currentUser;
-        //fore storing user info
+        //for storing user info
         FirebaseFirestore _firestore = FirebaseFirestore.instance;
         Map<String, dynamic> foodSellData = {
           "uid": currentUser!.uid,
-          "name": title,
+          "name": title.toUpperCase(),
           "contact": contact,
           "price": price,
           "address": address,
@@ -283,14 +284,14 @@ class _SellScreenState extends State<FoodSellScreen> {
                             labelText: "Discription:",
                           ),
                         ),
-                        TextFormField(
-                          controller: contactController,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: blueColor),
-                            labelText: "Contact:",
-                          ),
-                        ),
+                        // TextFormField(
+                        //   controller: contactController,
+                        //   keyboardType: TextInputType.phone,
+                        //   decoration: InputDecoration(
+                        //     labelStyle: TextStyle(color: blueColor),
+                        //     labelText: "Contact:",
+                        //   ),
+                        // ),
                         TextFormField(
                           controller: priceController,
                           keyboardType: TextInputType.number,

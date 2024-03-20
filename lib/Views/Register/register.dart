@@ -83,7 +83,7 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         ));
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const OnboardingScreen()));
+            MaterialPageRoute(builder: (context) => OnboardingScreen()));
       } on FirebaseAuthException catch (ex) {
         print(ex.code.toString());
       } finally {

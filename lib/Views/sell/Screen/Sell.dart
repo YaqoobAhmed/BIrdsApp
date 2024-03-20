@@ -144,11 +144,10 @@ class _SellScreenState extends State<SellScreen> {
     String address = addressController.text.trim();
     String discription = discriptionController.text.trim();
     // String contact = contactController.text.trim();
-    String? contact = phoneProvider.phoneNumber;
+    String? contact =
+        phoneProvider.phoneNumber; // Get the current user's phone number
 
-    // Get the current user's phone number
     User? currentUser = FirebaseAuth.instance.currentUser;
-    // String contact = FirebaseAuth.instance.currentUser?.phoneNumber ?? '';
 
     if (title == "" ||
         breed == "" ||
@@ -177,13 +176,11 @@ class _SellScreenState extends State<SellScreen> {
         String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
 
         // Store user info
-        print("${currentUser!.phoneNumber}");
-        print("${contact}");
 
         FirebaseFirestore _firestore = FirebaseFirestore.instance;
         Map<String, dynamic> sellData = {
-          "uid": currentUser.uid,
-          "name": title,
+          "uid": currentUser?.uid,
+          "name": title.toUpperCase(),
           "breed": breed,
           "contact": contact,
           "age": age,

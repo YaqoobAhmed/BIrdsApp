@@ -21,8 +21,8 @@ class _BuyScreenState extends State<BuyScreen> {
       try {
         yield* FirebaseFirestore.instance
             .collection("adds")
-            .where("name", isGreaterThanOrEqualTo: query)
-            .where("name", isLessThan: query + 'z')
+            .where("name", isGreaterThanOrEqualTo: query.toUpperCase())
+            .where("name", isLessThan: query.toUpperCase() + 'z')
             .snapshots();
         return;
       } catch (e) {

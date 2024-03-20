@@ -4,7 +4,7 @@ import 'package:firebase/Views/Foodmart/Tabs/Sell/food_sell.dart';
 import 'package:firebase/colors.dart';
 
 class FoodMartScreen extends StatefulWidget {
-  FoodMartScreen({Key? key}) : super(key: key); // Corrected constructor syntax
+  FoodMartScreen({Key? key}) : super(key: key);
 
   @override
   State<FoodMartScreen> createState() => _FoodMartScreenState();
@@ -15,6 +15,7 @@ class _FoodMartScreenState extends State<FoodMartScreen> {
 
   bool _isSearching = false;
   String _query = '';
+  int _selectedIndex = 0;
 
   Widget _buildSearchField() {
     return TextFormField(
@@ -40,19 +41,21 @@ class _FoodMartScreenState extends State<FoodMartScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: _isSearching ? _buildSearchField() : const Text('Food Mart'),
-          actions: [
-            IconButton(
-              icon: Icon(_isSearching ? Icons.cancel : Icons.search),
-              onPressed: () {
-                setState(() {
-                  _isSearching = !_isSearching;
-                  if (!_isSearching) {
-                    searchController.clear();
-                  }
-                });
-              },
-            ),
-          ],
+          actions: _selectedIndex == 0
+              ? [
+                  IconButton(
+                    icon: Icon(_isSearching ? Icons.cancel : Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        _isSearching = !_isSearching;
+                        if (!_isSearching) {
+                          searchController.clear();
+                        }
+                      });
+                    },
+                  ),
+                ]
+              : null,
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorWeight: 3,
@@ -79,12 +82,18 @@ class _FoodMartScreenState extends State<FoodMartScreen> {
                 ),
               ),
             ],
+            onTap: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
           ),
         ),
         body: TabBarView(
           children: [
             FoodBuyScreen(
-                query: _query.toString()), // Provide a valid value for 'query'
+              query: _query.toString(),
+            ),
             FoodSellScreen(),
           ],
         ),

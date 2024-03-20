@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/Views/My_Ads/Screens/my_ads.dart';
 import 'package:firebase/Views/My_Ads/Screens/my_articles.dart';
 import 'package:firebase/Views/My_Ads/Screens/my_items.dart';
@@ -6,12 +7,15 @@ import 'package:firebase/Views/Profile/Screen/Profile_screen.dart';
 import 'package:firebase/Views/Profile/widget/signout_dialog.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase/navBar.dart';
+import 'package:firebase/provider/phone_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NavigationDrawer extends StatelessWidget {
   NavigationDrawer({Key? key});
   final User currentUser = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -143,8 +147,38 @@ class NavigationDrawer extends StatelessWidget {
   }
 }
 
-class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({Key? key});
+class OnboardingScreen extends StatefulWidget {
+  OnboardingScreen({Key? key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  late final User currentUser = FirebaseAuth.instance.currentUser!;
+
+  late Stream<DocumentSnapshot> userDataStream;
+
+  late String contact;
+
+  @override
+  void initState() {
+    super.initState();
+    userDataStream = FirebaseFirestore.instance
+        .collection("user")
+        .doc(currentUser.email)
+        .snapshots();
+
+    // Listen to the userDataStream and update the contact information
+    userDataStream.listen((snapshot) {
+      setState(() {
+        contact = snapshot['phoneNumber'];
+      });
+      // Update the contact information in the PhoneProvider
+      Provider.of<PhoneProvider>(context, listen: false)
+          .setPhoneNumber(contact);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

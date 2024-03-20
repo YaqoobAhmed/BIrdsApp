@@ -23,8 +23,8 @@ class _FoodBuyScreenState extends State<FoodBuyScreen> {
       try {
         yield* FirebaseFirestore.instance
             .collection("FoodAdds")
-            .where("name", isGreaterThanOrEqualTo: query)
-            .where("name", isLessThan: query + 'z')
+            .where("name", isGreaterThanOrEqualTo: query.toUpperCase())
+            .where("name", isLessThan: query.toUpperCase() + 'z')
             .snapshots();
         return;
       } catch (e) {

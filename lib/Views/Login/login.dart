@@ -42,7 +42,7 @@ class _LoginViewState extends State<LoginView> {
       // After successful login, navigate to the OnboardingScreen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+        MaterialPageRoute(builder: (context) => OnboardingScreen()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

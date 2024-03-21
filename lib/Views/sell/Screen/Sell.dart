@@ -190,9 +190,9 @@ class _SellScreenState extends State<SellScreen> {
           "price": price,
           "address": address,
           "discription": discription,
-          "_birdPic": donwnloadUrl
+          "birdPic": donwnloadUrl
         };
-        await _firestore.collection("adds").add(sellData);
+        await _firestore.collection("birdAds").add(sellData);
         CustomSnackBar.showCustomSnackBar(context, "Ad Posted");
 
         print("Ad posted");

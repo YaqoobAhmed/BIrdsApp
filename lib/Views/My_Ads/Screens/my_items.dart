@@ -11,7 +11,7 @@ class MyItems extends StatelessWidget {
 
   Stream<QuerySnapshot> fetchData() async* {
     yield* FirebaseFirestore.instance
-        .collection("FoodAdds")
+        .collection("martAds")
         .where("uid", isEqualTo: currentUserUid)
         .snapshots();
   }
@@ -40,15 +40,15 @@ class MyItems extends StatelessWidget {
                 final imageUrl = postMap['foodPic'] ?? '';
                 final name = postMap['name'] ?? 'Name not available';
                 final price = postMap['price'] ?? 'Price not available';
-                final discription =
-                    postMap['discription'] ?? 'Discription not available';
+                final description =
+                    postMap['description'] ?? 'Discription not available';
 
                 void deleteItem() async {
                   Center(
                     child: CircularProgressIndicator(),
                   );
                   await FirebaseFirestore.instance
-                      .collection("FoodAdds")
+                      .collection("martAds")
                       .doc(snapshot.data!.docs[index].id)
                       .delete();
                 }
@@ -73,7 +73,7 @@ class MyItems extends StatelessWidget {
                           builder: (context) => ProductView(
                             image: imageUrl,
                             name: name,
-                            description: postMap["discription"],
+                            description: postMap["description"],
                             address: postMap["address"],
                             price: price,
                             contact: postMap["contact"],
@@ -119,7 +119,7 @@ class MyItems extends StatelessWidget {
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  discription,
+                                  description,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 16,

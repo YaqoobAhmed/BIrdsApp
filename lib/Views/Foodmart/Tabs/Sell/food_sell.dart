@@ -142,14 +142,14 @@ class _SellScreenState extends State<FoodSellScreen> {
     String title = titleControlle.text.trim();
     var price = priceController.text.trim();
     String address = addressController.text.trim();
-    String discription = discriptionController.text.trim();
+    String description = discriptionController.text.trim();
     String? contact = phoneProvider.phoneNumber;
 
     if (title == "" ||
         contact == "" ||
         price == "" ||
         address == "" ||
-        discription == "" ||
+        description == "" ||
         foodPic == null) {
       CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
     } else {
@@ -175,11 +175,11 @@ class _SellScreenState extends State<FoodSellScreen> {
           "contact": contact,
           "price": price,
           "address": address,
-          "discription": discription,
+          "description": description,
           "foodPic": donwnloadUrl
         };
-        await _firestore.collection("FoodAdds").add(foodSellData);
-        CustomSnackBar.showCustomSnackBar(context, "Ad Posted");
+        await _firestore.collection("martAds").add(foodSellData);
+        CustomSnackBar.showCustomSnackBar(context, "Item Posted!");
 
         //clearing all the data after successful post
         titleControlle.clear();

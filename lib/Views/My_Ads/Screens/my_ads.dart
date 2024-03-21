@@ -11,7 +11,7 @@ class MyAds extends StatelessWidget {
 
   Stream<QuerySnapshot> fetchData() async* {
     yield* FirebaseFirestore.instance
-        .collection("adds")
+        .collection("birdAds")
         .where("uid", isEqualTo: currentUserUid)
         .snapshots();
   }
@@ -47,7 +47,7 @@ class MyAds extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                   await FirebaseFirestore.instance
-                      .collection("adds")
+                      .collection("birdAds")
                       .doc(snapshot.data!.docs[index].id)
                       .delete();
                 }

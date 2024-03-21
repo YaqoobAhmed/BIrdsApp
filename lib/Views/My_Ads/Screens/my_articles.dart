@@ -46,7 +46,7 @@ class MyArticles extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     );
                     await FirebaseFirestore.instance
-                        .collection("articlePosts")
+                        .collection("article")
                         .doc(snapshot.data!.docs[index].id)
                         .delete();
                   }

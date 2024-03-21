@@ -22,7 +22,7 @@ class _FoodBuyScreenState extends State<FoodBuyScreen> {
     while (true) {
       try {
         yield* FirebaseFirestore.instance
-            .collection("FoodAdds")
+            .collection("martAds")
             .where("name", isGreaterThanOrEqualTo: query.toUpperCase())
             .where("name", isLessThan: query.toUpperCase() + 'z')
             .snapshots();
@@ -69,7 +69,7 @@ class _FoodBuyScreenState extends State<FoodBuyScreen> {
                       builder: (context) => ProductView(
                         image: postMap["foodPic"],
                         name: postMap["name"],
-                        description: postMap["discription"],
+                        description: postMap["description"],
                         address: postMap["address"],
                         price: postMap["price"],
                         contact: postMap["contact"],

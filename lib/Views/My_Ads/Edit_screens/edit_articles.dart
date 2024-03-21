@@ -55,6 +55,7 @@ class _EditArticleScreenState extends State<EditArticleScreen> {
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   TextFormField(
+                    textCapitalization: TextCapitalization.words,
                     controller: _titleController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -69,6 +70,7 @@ class _EditArticleScreenState extends State<EditArticleScreen> {
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
                     maxLines: 15,
                     controller: _descriptionController,
                     keyboardType: TextInputType.multiline,

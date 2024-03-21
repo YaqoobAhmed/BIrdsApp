@@ -212,7 +212,7 @@ class _EditAdScreenState extends State<EditAdScreen> {
           child: CircularProgressIndicator(),
         );
         await FirebaseFirestore.instance
-            .collection("adds")
+            .collection("birdAds")
             .doc(widget.adId)
             .update({
           "name": newTitle.toUpperCase(),

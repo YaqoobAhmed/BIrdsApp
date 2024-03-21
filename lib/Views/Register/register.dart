@@ -5,6 +5,7 @@ import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -38,7 +39,7 @@ class _RegisterViewState extends State<RegisterView> {
         password == "" ||
         cPassword == "") {
       print("Please fill all fields");
-      CustomSnackBar.showCustomSnackBar(context, "Please fill all fields");
+      CustomSnackBar.showCustomSnackBar(context, "Please Fill in all fields.");
     } else if (password != cPassword) {
       CustomSnackBar.showCustomSnackBar(context, "Password does not match");
       print("Password does not match");
@@ -73,8 +74,8 @@ class _RegisterViewState extends State<RegisterView> {
         FirebaseFirestore _firestore = FirebaseFirestore.instance;
         Map<String, dynamic> userdata = {
           // "uid": uid,
-          "displayName": name,
-          "email": email,
+          "displayName": name.toUpperCase(),
+          "email": email.toLowerCase(),
           "phoneNumber": phone,
           "nic": nic
           // "profilePick": donwnloadUrl
@@ -122,6 +123,7 @@ class _RegisterViewState extends State<RegisterView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextFormField(
+                      textCapitalization: TextCapitalization.words,
                       controller: nameController,
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
@@ -139,6 +141,7 @@ class _RegisterViewState extends State<RegisterView> {
                       height: 10,
                     ),
                     TextFormField(
+                      textCapitalization: TextCapitalization.none,
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
@@ -157,7 +160,11 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                     TextFormField(
                       controller: phoneController,
-                      keyboardType: TextInputType.phone,
+                      keyboardType: TextInputType.phone, // Allow only numbers
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Allow only digits
+                      ],
                       decoration: InputDecoration(
                         labelStyle: TextStyle(color: blueColor),
                         border: OutlineInputBorder(

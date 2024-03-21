@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase/provider/phone_provider.dart';
 // import 'package:firebase/provider/phone_provider.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -149,7 +151,7 @@ class _SellScreenState extends State<FoodSellScreen> {
         address == "" ||
         discription == "" ||
         foodPic == null) {
-      print("Please fill all fields");
+      CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
     } else {
       try {
         setState(() {
@@ -177,19 +179,7 @@ class _SellScreenState extends State<FoodSellScreen> {
           "foodPic": donwnloadUrl
         };
         await _firestore.collection("FoodAdds").add(foodSellData);
-
-        print("Add posted");
-
-        //show bottom snackbar
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: blueColor,
-          duration: const Duration(seconds: 4),
-          behavior: SnackBarBehavior.floating,
-          content: const Text(
-            "Post Added",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ));
+        CustomSnackBar.showCustomSnackBar(context, "Ad Posted");
 
         //clearing all the data after successful post
         titleControlle.clear();
@@ -203,6 +193,8 @@ class _SellScreenState extends State<FoodSellScreen> {
           imageselected = false;
         });
       } on FirebaseAuthException catch (ex) {
+        CustomSnackBar.showCustomSnackBar(
+            context, "Error: ${ex.code.toString()}");
         print(ex.code.toString());
       } finally {
         setState(() {
@@ -269,6 +261,7 @@ class _SellScreenState extends State<FoodSellScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          textCapitalization: TextCapitalization.words,
                           controller: titleControlle,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
@@ -277,6 +270,7 @@ class _SellScreenState extends State<FoodSellScreen> {
                           ),
                         ),
                         TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           controller: discriptionController,
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
@@ -294,13 +288,19 @@ class _SellScreenState extends State<FoodSellScreen> {
                         // ),
                         TextFormField(
                           controller: priceController,
-                          keyboardType: TextInputType.number,
+                          keyboardType:
+                              TextInputType.number, // Allow only numbers
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter
+                                .digitsOnly, // Allow only digits
+                          ],
                           decoration: InputDecoration(
                             labelStyle: TextStyle(color: blueColor),
                             labelText: "Price:",
                           ),
                         ),
                         TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           controller: addressController,
                           keyboardType: TextInputType.streetAddress,
                           decoration: InputDecoration(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -72,6 +73,8 @@ class _PostArticleScreenState extends State<PostArticleScreen> {
     String description = descriptionController.text.trim();
 
     if (title.isEmpty || description.isEmpty || articlePic == null) {
+      CustomSnackBar.showCustomSnackBar(
+          context, "Please Fill in all the fields.");
       print("Please fill all fields");
       return;
     }
@@ -98,19 +101,9 @@ class _PostArticleScreenState extends State<PostArticleScreen> {
         "description": description,
         "articlePic": downloadUrl
       };
-      await _firestore.collection("articlePosts").add(articleData);
+      await _firestore.collection("article").add(articleData);
 
-      print("Article posted");
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: blueColor,
-        duration: const Duration(seconds: 4),
-        behavior: SnackBarBehavior.floating,
-        content: const Text(
-          "Article Posted",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ));
+      CustomSnackBar.showCustomSnackBar(context, "Article Posted!.");
 
       titleController.clear();
       descriptionController.clear();
@@ -119,6 +112,8 @@ class _PostArticleScreenState extends State<PostArticleScreen> {
         imageselected = false;
       });
     } on FirebaseAuthException catch (ex) {
+      CustomSnackBar.showCustomSnackBar(
+          context, "Error: ${ex.code.toString()}");
       print(ex.code.toString());
     } finally {
       setState(() {
@@ -252,6 +247,7 @@ class _PostArticleScreenState extends State<PostArticleScreen> {
                             height: MediaQuery.of(context).size.height * 0.03,
                           ),
                           TextFormField(
+                            textCapitalization: TextCapitalization.words,
                             controller: titleController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
@@ -267,6 +263,7 @@ class _PostArticleScreenState extends State<PostArticleScreen> {
                             height: MediaQuery.of(context).size.height * 0.03,
                           ),
                           TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
                             maxLines: 3,
                             controller: descriptionController,
                             keyboardType: TextInputType.multiline,

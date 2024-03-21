@@ -8,8 +8,7 @@ class ArticleReadScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-        stream:
-            FirebaseFirestore.instance.collection("articlePosts").snapshots(),
+        stream: FirebaseFirestore.instance.collection("article").snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));

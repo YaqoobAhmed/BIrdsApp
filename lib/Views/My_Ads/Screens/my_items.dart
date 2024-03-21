@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/Views/My_Ads/Edit_screens/edit_items.dart';
+import 'package:firebase/Views/product_view/Screen/product_view.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase/Views/Foodmart/Tabs/Buy/food_product_view.dart'; // Import your product view
 import 'package:firebase/colors.dart';
 
 class MyItems extends StatelessWidget {
@@ -43,8 +43,11 @@ class MyItems extends StatelessWidget {
                 final discription =
                     postMap['discription'] ?? 'Discription not available';
 
-                void deleteItem() {
-                  FirebaseFirestore.instance
+                void deleteItem() async {
+                  Center(
+                    child: CircularProgressIndicator(),
+                  );
+                  await FirebaseFirestore.instance
                       .collection("FoodAdds")
                       .doc(snapshot.data!.docs[index].id)
                       .delete();
@@ -67,7 +70,7 @@ class MyItems extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FoodProductView(
+                          builder: (context) => ProductView(
                             image: imageUrl,
                             name: name,
                             description: postMap["discription"],

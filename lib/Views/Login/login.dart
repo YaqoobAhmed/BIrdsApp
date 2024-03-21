@@ -1,7 +1,7 @@
+import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/Views/Onboarding/Screen/onboarding.dart';
 import 'package:firebase/Views/Register/register.dart';
 import 'package:firebase/colors.dart';
-// import 'package:firebase/firebase%20service/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +23,7 @@ class _LoginViewState extends State<LoginView> {
 
     if (emailAddress.isEmpty || password.isEmpty) {
       print("Please fill all fields");
+      CustomSnackBar.showCustomSnackBar(context, "Please Fill in all fields.");
 
       return;
     }
@@ -35,7 +36,7 @@ class _LoginViewState extends State<LoginView> {
 
       // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailAddress,
+        email: emailAddress.toLowerCase(),
         password: password,
       );
 
@@ -44,11 +45,24 @@ class _LoginViewState extends State<LoginView> {
         context,
         MaterialPageRoute(builder: (context) => OnboardingScreen()),
       );
+      CustomSnackBar.showCustomSnackBar(context, "Loged in Successfully..");
     } on FirebaseAuthException catch (e) {
+      print('Error Code: ${e.code}');
+      print('Error Message: ${e.message}');
+
+      setState(() {
+        isLoading = false; // Set loading state to false after login attempt
+      });
       if (e.code == 'user-not-found') {
+        CustomSnackBar.showCustomSnackBar(
+            context, "No user found for that email..");
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        CustomSnackBar.showCustomSnackBar(context, "Wrong Password..");
+        print('Wrong password provided.');
+      } else {
+        CustomSnackBar.showCustomSnackBar(context, "Error: ${e.message}");
+        print('Error: ${e.message}');
       }
     } finally {
       setState(() {

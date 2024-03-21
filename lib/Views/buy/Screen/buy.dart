@@ -162,7 +162,7 @@ class _BuyScreenState extends State<BuyScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "\$${postMap["price"]}",
+                                      "Rs.${postMap["price"]}",
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: TextStyle(

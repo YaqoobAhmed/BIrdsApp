@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/Views/Foodmart/Tabs/Buy/food_product_view.dart';
+import 'package:firebase/Views/product_view/Screen/product_view.dart';
 import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +66,7 @@ class _FoodBuyScreenState extends State<FoodBuyScreen> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FoodProductView(
+                      builder: (context) => ProductView(
                         image: postMap["foodPic"],
                         name: postMap["name"],
                         description: postMap["discription"],
@@ -119,7 +119,7 @@ class _FoodBuyScreenState extends State<FoodBuyScreen> {
                                 style: TextStyle(fontWeight: FontWeight.w400),
                               ),
                               subtitle: Text(
-                                "\$${postMap["price"]}",
+                                "Rs.${postMap["price"]}",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(

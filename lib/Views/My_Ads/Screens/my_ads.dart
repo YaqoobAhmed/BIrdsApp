@@ -42,8 +42,11 @@ class MyAds extends StatelessWidget {
                 final breed = postMap['breed'] ?? 'Breed not available';
                 final price = postMap['price'] ?? 'Price not available';
 
-                void deleteAd() {
-                  FirebaseFirestore.instance
+                void deleteAd() async {
+                  Center(
+                    child: CircularProgressIndicator(),
+                  );
+                  await FirebaseFirestore.instance
                       .collection("adds")
                       .doc(snapshot.data!.docs[index].id)
                       .delete();

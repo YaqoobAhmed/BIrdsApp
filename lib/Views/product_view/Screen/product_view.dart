@@ -9,15 +9,15 @@ class ProductView extends StatefulWidget {
       {super.key,
       required this.image,
       required this.name,
-      required this.breed,
-      required this.age,
+      this.breed,
+      this.age,
       required this.description,
       required this.address,
       required this.price,
       required this.contact});
   final String image;
   final String name;
-  final String breed;
+  String? breed;
   var age;
   final String description;
   final String address;
@@ -111,41 +111,53 @@ class _ProductViewState extends State<ProductView> {
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 26),
                         ),
-                        const SizedBox(
-                          height: 10,
+                        Visibility(
+                          visible: widget.breed != null,
+                          child: const SizedBox(
+                            height: 10,
+                          ),
                         ),
-                        RichText(
-                          text: TextSpan(
-                              text: "Breed: ",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  color: Colors.black),
-                              children: [
-                                TextSpan(
-                                    text: widget.breed,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal))
-                              ]),
+                        Visibility(
+                          visible: widget.breed != null,
+                          child: RichText(
+                            text: TextSpan(
+                                text: "Breed: ",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Colors.black),
+                                children: [
+                                  TextSpan(
+                                      text: widget.breed,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal))
+                                ]),
+                          ),
                         ),
-                        const SizedBox(
-                          height: 10,
+                        Visibility(
+                          visible: widget.breed != null,
+                          child: const SizedBox(
+                            height: 10,
+                          ),
                         ),
-                        RichText(
-                          text: TextSpan(
-                              text: "Age: ",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  color: Colors.black),
-                              children: [
-                                TextSpan(
-                                    text: widget.age.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal))
-                              ]),
+                        Visibility(
+                          visible: widget.age != null,
+                          child: RichText(
+                            text: TextSpan(
+                                text: "Age: ",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Colors.black),
+                                children: [
+                                  TextSpan(
+                                      text: widget.age.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal))
+                                ]),
+                          ),
                         ),
                         const SizedBox(
                           height: 10,

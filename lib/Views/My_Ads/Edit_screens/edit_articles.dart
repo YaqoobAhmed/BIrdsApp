@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EditArticleScreen extends StatefulWidget {
@@ -110,24 +112,40 @@ class _EditArticleScreenState extends State<EditArticleScreen> {
   }
 
   void updateArticle() async {
-    try {
-      String newTitle = _titleController.text;
-      String newDescription = _descriptionController.text;
+    String newTitle = _titleController.text.trim();
+    String newDescription = _descriptionController.text.trim();
 
-      // Update the article in Firestore using the docId
-      await FirebaseFirestore.instance
-          .collection("articlePosts")
-          .doc(widget.docId)
-          .update({
-        "title": newTitle,
-        "description": newDescription,
-      });
+    // Update the article in Firestore using the docId
 
-      // Navigate back to the previous screen after successful update
-      Navigator.pop(context);
-    } catch (error) {
-      // Handle error
-      print("Error updating article: $error");
+    if (newTitle.isEmpty || newDescription.isEmpty) {
+      // print("${currentUser!.phoneNumber}");
+      // print("${contact}");
+      CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
+      print("Please fill all fields");
+      return;
+    } else {
+      try {
+        // Store user info
+        Center(
+          child: CircularProgressIndicator(),
+        );
+        await FirebaseFirestore.instance
+            .collection("article")
+            .doc(widget.docId)
+            .update({
+          "title": newTitle,
+          "description": newDescription,
+        });
+
+        CustomSnackBar.showCustomSnackBar(context, "Article Updated!.");
+      } on FirebaseAuthException catch (ex) {
+        CustomSnackBar.showCustomSnackBar(
+            context, "Error: ${ex.code.toString()}");
+      } finally {
+        Navigator.pop(context);
+      }
     }
   }
+
+  // Navigate back to the previous screen after successful update
 }

@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase/provider/phone_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -28,35 +30,35 @@ class _SellScreenState extends State<SellScreen> {
   TextEditingController priceController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController discriptionController = TextEditingController();
-  bool isLoading = false;
-  File? birdPic;
-  bool imageselected = false;
-  XFile? image;
+
+  bool _isLoading = false;
+  File? _birdPic;
+  bool _imageselected = false;
+  XFile? _image;
 
   final picker = ImagePicker();
-
-  // method to pick single image while replacing the photo
+  // method to pick single _image while replacing the photo
   Future imagePicker(ImageSource source) async {
-    image = (await picker.pickImage(source: source));
-    if (image != null) {
-      final bytes = await image!.readAsBytes();
+    _image = (await picker.pickImage(source: source));
+    if (_image != null) {
+      final bytes = await _image!.readAsBytes();
       final kb = bytes.length / 1024;
       final mb = kb / 1024;
 
       if (kDebugMode) {
-        print('original image size:' + mb.toString());
+        print('original _image size:' + mb.toString());
       }
 
       final dir = await path_provider.getTemporaryDirectory();
       final targetPath = '${dir.absolute.path}/temp.jpg';
 
-      // converting original image to compress it
+      // converting original _image to compress it
       final result = await FlutterImageCompress.compressAndGetFile(
-        image!.path,
+        _image!.path,
         targetPath,
         minHeight: 800, //you can play with this to reduce siz
         minWidth: 800,
-        quality: 80, // keep this high to get the original quality of image
+        quality: 80, // keep this high to get the original quality of _image
       );
 
       final data = await result!.readAsBytes();
@@ -64,10 +66,10 @@ class _SellScreenState extends State<SellScreen> {
       final newMb = newKb / 1024;
 
       if (kDebugMode) {
-        print('compress image size:' + newMb.toString());
+        print('compress _image size:' + newMb.toString());
       }
 
-      birdPic = File(result.path);
+      _birdPic = File(result.path);
 
       setState(() {});
     }
@@ -91,7 +93,7 @@ class _SellScreenState extends State<SellScreen> {
                           onPressed: () async {
                             await imagePicker(ImageSource.camera);
                             setState(() {
-                              imageselected = true;
+                              _imageselected = true;
                             });
                             Navigator.of(context).pop();
                           },
@@ -111,7 +113,7 @@ class _SellScreenState extends State<SellScreen> {
                           onPressed: () async {
                             await imagePicker(ImageSource.gallery);
                             setState(() {
-                              imageselected = true;
+                              _imageselected = true;
                             });
                             Navigator.of(context).pop();
                           },
@@ -156,21 +158,22 @@ class _SellScreenState extends State<SellScreen> {
         price == "" ||
         address == "" ||
         discription == "" ||
-        birdPic == null) {
+        _birdPic == null) {
       // print("${currentUser!.phoneNumber}");
       // print("${contact}");
+      CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
       print("Please fill all fields");
     } else {
       try {
         setState(() {
-          isLoading = true;
+          _isLoading = true;
         });
 
         UploadTask uploadTask = FirebaseStorage.instance
             .ref()
             .child("birdPictures")
             .child(Uuid().v1())
-            .putFile(birdPic!);
+            .putFile(_birdPic!);
 
         TaskSnapshot taskSnapshot = await uploadTask;
         String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
@@ -187,27 +190,20 @@ class _SellScreenState extends State<SellScreen> {
           "price": price,
           "address": address,
           "discription": discription,
-          "birdPic": donwnloadUrl
+          "_birdPic": donwnloadUrl
         };
         await _firestore.collection("adds").add(sellData);
+        CustomSnackBar.showCustomSnackBar(context, "Ad Posted");
 
-        print("Add posted");
-
-        // Show bottom snackbar
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: blueColor,
-          duration: const Duration(seconds: 4),
-          behavior: SnackBarBehavior.floating,
-          content: const Text(
-            "Post Added",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ));
+        print("Ad posted");
       } on FirebaseAuthException catch (ex) {
+        CustomSnackBar.showCustomSnackBar(
+            context, "Error: ${ex.code.toString()}");
+
         print(ex.code.toString());
       } finally {
         setState(() {
-          isLoading = false;
+          _isLoading = false;
           clear();
         });
       }
@@ -223,10 +219,10 @@ class _SellScreenState extends State<SellScreen> {
     discriptionController.clear();
     priceController.clear();
     addressController.clear();
-    image = null; // Fixed the assignment operator
-    birdPic = null; // Fixed the assignment operator
+    _image = null; // Fixed the assignment operator
+    _birdPic = null; // Fixed the assignment operator
     setState(() {
-      imageselected = false; // Reset imageselected to false
+      _imageselected = false; // Reset _imageselected to false
     });
   }
 
@@ -269,15 +265,15 @@ class _SellScreenState extends State<SellScreen> {
                         child: CircleAvatar(
                           radius: 40,
                           backgroundColor: Colors.grey.withOpacity(
-                              0.5), // Set a background color if no image is selected
-                          child: imageselected
+                              0.5), // Set a background color if no _image is selected
+                          child: _imageselected
                               ? null
                               : Icon(
                                   Icons.add_photo_alternate,
                                   color: blueColor,
                                 ),
                           backgroundImage:
-                              birdPic != null ? FileImage(birdPic!) : null,
+                              _birdPic != null ? FileImage(_birdPic!) : null,
                         ),
                       ),
                       SizedBox(
@@ -305,6 +301,7 @@ class _SellScreenState extends State<SellScreen> {
                         child: Column(
                           children: [
                             TextFormField(
+                              textCapitalization: TextCapitalization.words,
                               controller: titleControlle,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
@@ -313,6 +310,7 @@ class _SellScreenState extends State<SellScreen> {
                               ),
                             ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               controller: breedControlle,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
@@ -322,13 +320,20 @@ class _SellScreenState extends State<SellScreen> {
                             ),
                             TextFormField(
                               controller: ageController,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true), // Allow decimal values
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp(
+                                    r'[0-9.]')), // Allow only digits and decimal point
+                              ],
                               decoration: InputDecoration(
-                                  labelStyle: TextStyle(color: blueColor),
-                                  labelText: "Age:",
-                                  hintText: "1.2"),
+                                labelStyle: TextStyle(color: blueColor),
+                                labelText: "Age:",
+                                hintText: "1.2",
+                              ),
                             ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               controller: discriptionController,
                               keyboardType: TextInputType.multiline,
                               decoration: InputDecoration(
@@ -336,23 +341,21 @@ class _SellScreenState extends State<SellScreen> {
                                 labelText: "Discription:",
                               ),
                             ),
-                            // TextFormField(
-                            //   controller: contactController,
-                            //   keyboardType: TextInputType.phone,
-                            //   decoration: InputDecoration(
-                            //     labelStyle: TextStyle(color: blueColor),
-                            //     labelText: "Contact:",
-                            //   ),
-                            // ),
                             TextFormField(
                               controller: priceController,
-                              keyboardType: TextInputType.number,
+                              keyboardType:
+                                  TextInputType.number, // Allow only numbers
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter
+                                    .digitsOnly, // Allow only digits
+                              ],
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(color: blueColor),
                                 labelText: "Price:",
                               ),
                             ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               controller: addressController,
                               keyboardType: TextInputType.streetAddress,
                               decoration: InputDecoration(
@@ -393,8 +396,8 @@ class _SellScreenState extends State<SellScreen> {
             ),
           ),
 
-          //Conditionally show CircularProgressIndicator based on isLoading
-          if (isLoading)
+          //Conditionally show CircularProgressIndicator based on _isLoading
+          if (_isLoading)
             Container(
               color: Colors.black.withOpacity(0.5),
               child: Center(

@@ -1,3 +1,4 @@
+import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,7 @@ class _EditAdScreenState extends State<EditProfileScreen> {
                             child: Column(
                               children: [
                                 TextFormField(
+                                  textCapitalization: TextCapitalization.words,
                                   controller: _nameController,
                                   keyboardType: TextInputType.name,
                                   decoration: InputDecoration(
@@ -96,6 +98,7 @@ class _EditAdScreenState extends State<EditProfileScreen> {
                                   height: 15,
                                 ),
                                 TextFormField(
+                                  textCapitalization: TextCapitalization.none,
                                   readOnly: true,
                                   controller: _emailController,
                                   keyboardType: TextInputType.emailAddress,
@@ -288,9 +291,15 @@ class _EditAdScreenState extends State<EditProfileScreen> {
         newNic.isEmpty ||
         newContact.isEmpty) {
       // Show a snackbar to indicate empty fields
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill in all fields.')),
-      );
+      CustomSnackBar.showCustomSnackBar(context, "Please Fill in all fields.");
+      return;
+    } else if (newContact.length != 11) {
+      CustomSnackBar.showCustomSnackBar(
+          context, "Contact# must contain 11 digits.");
+      return;
+    } else if (newNic.length != 15) {
+      CustomSnackBar.showCustomSnackBar(
+          context, "NiC must contain 15 character including ' - ' ");
       return;
     }
 
@@ -298,25 +307,21 @@ class _EditAdScreenState extends State<EditProfileScreen> {
     if (newPassword.isNotEmpty) {
       // Check if confirm password field is empty
       if (confirmPassword.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please confirm your password.')),
-        );
+        CustomSnackBar.showCustomSnackBar(
+            context, "Please confirm your password.");
         return;
       }
 
       // Check if old password field is empty
       if (oldPassword.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please enter your old password.')),
-        );
+        CustomSnackBar.showCustomSnackBar(
+            context, "Please enter your old password.");
         return;
       }
 
       // Check if passwords match
       if (newPassword != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Passwords do not match.')),
-        );
+        CustomSnackBar.showCustomSnackBar(context, "Password do not match.");
         return;
       }
     }
@@ -330,7 +335,7 @@ class _EditAdScreenState extends State<EditProfileScreen> {
           .collection("user")
           .doc(widget.uId)
           .update({
-        "displayName": newName,
+        "displayName": newName.toUpperCase(),
         "email": newEmail,
         "nic": newNic,
         "phoneNumber": newContact,
@@ -354,18 +359,17 @@ class _EditAdScreenState extends State<EditProfileScreen> {
           } on FirebaseAuthException catch (e) {
             if (e.code == 'wrong-password') {
               // Old password is incorrect
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Incorrect old password.')),
-              );
+              CustomSnackBar.showCustomSnackBar(
+                  context, "Incorrect old password.");
+
               // Prompt user to re-enter old password
               // You can implement your own logic here, such as showing/hiding UI elements
               // For now, we'll set enteredOldPassword to an empty string to force the loop to continue
               enteredOldPassword = '';
             } else {
               // Handle other FirebaseAuthException errors
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: ${e.message}')),
-              );
+              CustomSnackBar.showCustomSnackBar(context, 'Error: ${e.message}');
+
               return;
             }
           }
@@ -374,16 +378,17 @@ class _EditAdScreenState extends State<EditProfileScreen> {
         // Update password if reauthentication is successful
         if (reauthenticated) {
           await user.updatePassword(newPassword);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Password updated successfully')),
-          );
+          CustomSnackBar.showCustomSnackBar(
+              context, 'Password updated successfully.');
         }
       }
-
+      CustomSnackBar.showCustomSnackBar(
+          context, 'Profile updated successfully..');
       // Navigate back to the previous screen
       Navigator.pop(context);
     } catch (e) {
       // Handle errors
+      CustomSnackBar.showCustomSnackBar(context, 'Error updating profile: $e');
       print("Error updating profile: $e");
     }
   }

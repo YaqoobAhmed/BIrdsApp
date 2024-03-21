@@ -1,6 +1,9 @@
+import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 
 class EditItemsScreen extends StatefulWidget {
   final String adId;
@@ -64,6 +67,7 @@ class _EditAdScreenState extends State<EditItemsScreen> {
                       child: Column(
                         children: [
                           TextFormField(
+                            textCapitalization: TextCapitalization.words,
                             controller: _nameController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
@@ -72,7 +76,8 @@ class _EditAdScreenState extends State<EditItemsScreen> {
                             ),
                           ),
                           TextFormField(
-                            controller: _addressController,
+                            textCapitalization: TextCapitalization.words,
+                            controller: _descriptionController,
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                               labelStyle: TextStyle(color: blueColor),
@@ -82,6 +87,10 @@ class _EditAdScreenState extends State<EditItemsScreen> {
                           TextFormField(
                             controller: _contactController,
                             keyboardType: TextInputType.phone,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter
+                                  .digitsOnly, // Allow only digits
+                            ],
                             decoration: InputDecoration(
                               labelStyle: TextStyle(color: blueColor),
                               labelText: "Contact:",
@@ -90,12 +99,17 @@ class _EditAdScreenState extends State<EditItemsScreen> {
                           TextFormField(
                             controller: _priceController,
                             keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter
+                                  .digitsOnly, // Allow only digits
+                            ],
                             decoration: InputDecoration(
                               labelStyle: TextStyle(color: blueColor),
                               labelText: "Price:",
                             ),
                           ),
                           TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
                             controller: _addressController,
                             keyboardType: TextInputType.streetAddress,
                             decoration: InputDecoration(
@@ -140,23 +154,54 @@ class _EditAdScreenState extends State<EditItemsScreen> {
     );
   }
 
-  void updateItem() {
-    String newName = _nameController.text;
-    String newDescription = _descriptionController.text;
-    String newAddress = _addressController.text;
-    String newPrice = _priceController.text;
-    String newContact = _contactController.text;
+  void updateItem() async {
+    String newTitle = _nameController.text.trim();
+    String newDescription = _descriptionController.text.trim();
+    String newAddress = _addressController.text.trim();
+    String newPrice = _priceController.text.trim();
+    String newContact = _contactController.text.trim();
 
-    // Update the ad in Firestore
-    FirebaseFirestore.instance.collection("adds").doc(widget.adId).update({
-      "name": newName,
-      "description": newDescription,
-      "address": newAddress,
-      "price": newPrice,
-      "contact": newContact,
-    });
+    if (newTitle.isEmpty ||
+        newDescription.isEmpty ||
+        newPrice.isEmpty ||
+        newAddress.isEmpty ||
+        newContact.isEmpty) {
+      // print("${currentUser!.phoneNumber}");
+      // print("${contact}");
+      CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
+      print("Please fill all fields");
+      return;
+    } else if (newContact.length != 11) {
+      CustomSnackBar.showCustomSnackBar(
+          context, "Contact must contain 11 Digits");
+      return;
+    } else if (newPrice == '0') {
+      CustomSnackBar.showCustomSnackBar(context, "Price Can not be 0.");
+      return;
+    } else {
+      try {
+        // Store user info
+        Center(
+          child: CircularProgressIndicator(),
+        );
+        await FirebaseFirestore.instance
+            .collection("FoodAdds")
+            .doc(widget.adId)
+            .update({
+          "name": newTitle.toUpperCase(),
+          "description": newDescription,
+          "address": newAddress,
+          "price": newPrice,
+          "contact": newContact,
+        });
 
-    // Navigate back to the previous screen
-    Navigator.pop(context);
+        CustomSnackBar.showCustomSnackBar(context, "Item Updated!.");
+      } on FirebaseAuthException catch (ex) {
+        CustomSnackBar.showCustomSnackBar(
+            context, "Error: ${ex.code.toString()}");
+      } finally {
+        Navigator.pop(context);
+      }
+    }
   }
 }

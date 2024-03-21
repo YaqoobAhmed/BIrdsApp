@@ -16,7 +16,7 @@ class MyArticles extends StatelessWidget {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection("articlePosts")
+            .collection("article")
             .where("uid", isEqualTo: currentUserUid) // Add where clause
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -41,8 +41,11 @@ class MyArticles extends StatelessWidget {
                       'Description Is Not Available';
                   final imageUrl = articleData['articlePic'] ?? '';
 
-                  void deleteArticle() {
-                    FirebaseFirestore.instance
+                  void deleteArticle() async {
+                    Center(
+                      child: CircularProgressIndicator(),
+                    );
+                    await FirebaseFirestore.instance
                         .collection("articlePosts")
                         .doc(snapshot.data!.docs[index].id)
                         .delete();

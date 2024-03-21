@@ -87,6 +87,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           Center(
+                              child: CircleAvatar(
+                            radius: 46,
+                            backgroundColor: Colors.black,
                             child: CircleAvatar(
                               radius: 46,
                               backgroundColor: Colors.black,
@@ -94,15 +97,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 backgroundColor: Colors.grey.shade300,
                                 radius: 45,
                                 child: Center(
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 60,
-                                    color: blueColor,
+                                  child: Text(
+                                    userData["displayName"] != null
+                                        ? _getInitials(userData["displayName"]!)
+                                        : 'NA',
+                                    style: TextStyle(
+                                      fontSize: 50,
+                                      fontWeight: FontWeight.w400,
+                                      color: blueColor,
+                                      shadows: [
+                                        Shadow(
+                                          color: Colors.yellow.withOpacity(0.5),
+                                          blurRadius: 2,
+                                          offset: Offset(-4, 1),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                          )),
                         ],
                       ),
                     ),
@@ -225,5 +240,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  String _getInitials(String name) {
+    List<String> nameSplit = name.split(" ");
+    String initials = '';
+    for (var i = 0; i < nameSplit.length; i++) {
+      if (i == 2) break; // Only consider first two words
+      initials += nameSplit[i][0].toUpperCase();
+    }
+    return initials;
   }
 }

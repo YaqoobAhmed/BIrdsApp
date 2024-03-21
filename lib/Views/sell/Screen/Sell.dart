@@ -144,7 +144,7 @@ class _SellScreenState extends State<SellScreen> {
     String age = ageController.text.trim();
     String price = priceController.text.trim();
     String address = addressController.text.trim();
-    String discription = discriptionController.text.trim();
+    String description = discriptionController.text.trim();
     // String contact = contactController.text.trim();
     String? contact =
         phoneProvider.phoneNumber; // Get the current user's phone number
@@ -157,7 +157,7 @@ class _SellScreenState extends State<SellScreen> {
         age == "" ||
         price == "" ||
         address == "" ||
-        discription == "" ||
+        description == "" ||
         _birdPic == null) {
       // print("${currentUser!.phoneNumber}");
       // print("${contact}");
@@ -189,7 +189,7 @@ class _SellScreenState extends State<SellScreen> {
           "age": age,
           "price": price,
           "address": address,
-          "discription": discription,
+          "description": description,
           "birdPic": donwnloadUrl
         };
         await _firestore.collection("birdAds").add(sellData);

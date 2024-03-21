@@ -1,150 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/Views/My_Ads/Screens/my_ads.dart';
-import 'package:firebase/Views/My_Ads/Screens/my_articles.dart';
-import 'package:firebase/Views/My_Ads/Screens/my_items.dart';
+import 'package:firebase/Drawer/drawer.dart';
 import 'package:firebase/Views/Onboarding/Widget/onboard_container.dart';
-import 'package:firebase/Views/Profile/Screen/Profile_screen.dart';
-import 'package:firebase/Views/Profile/widget/signout_dialog.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase/provider/phone_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-class NavigationDrawer extends StatelessWidget {
-  NavigationDrawer({Key? key});
-  final User currentUser = FirebaseAuth.instance.currentUser!;
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-        width: MediaQuery.of(context).size.width * 0.7,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(),
-                  )),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width * 1,
-                color: blueColor,
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top, bottom: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.black,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey.shade300,
-                          radius: 38,
-                          child: Center(
-                            child: Icon(
-                              Icons.person,
-                              size: 60,
-                              color: blueColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      currentUser.email ?? 'Not Available',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  ListTile(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen(),
-                        )),
-                    leading: Icon(Icons.person),
-                    title: Text("Profile"),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      print("${currentUser.uid}");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyAds(
-                              currentUserUid: currentUser.uid,
-                            ),
-                          ));
-                    },
-                    leading: Icon(Icons.sell),
-                    title: Text("My Ads"),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyItems(
-                              currentUserUid: currentUser.uid,
-                            ),
-                          ));
-                    },
-                    leading: Icon(Icons.store),
-                    title: Text("My Items"),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      print("${currentUser.uid}");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyArticles(
-                              currentUserUid: currentUser.uid,
-                            ),
-                          ));
-                    },
-                    leading: Icon(Icons.article),
-                    title: Text("My Articles"),
-                  ),
-                  Divider(
-                    indent: 20,
-                    endIndent: 20,
-                    color: blueColor,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.35,
-                  ),
-                  ListTile(
-                    onTap: () {
-                      showSignoutDialog(context);
-                    },
-                    leading: Icon(Icons.logout),
-                    title: Text("Signout"),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ));
-  }
-}
 
 class OnboardingScreen extends StatefulWidget {
   OnboardingScreen({Key? key});
@@ -186,7 +47,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         appBar: AppBar(
           title: Text("Avian Tech Emporium"),
         ),
-        drawer: NavigationDrawer(),
+        drawer: CustomNavigationDrawer(),
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(

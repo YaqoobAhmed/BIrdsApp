@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
-class ProductView extends StatefulWidget {
+class ProductView extends StatelessWidget {
   ProductView(
       {super.key,
       required this.image,
@@ -24,11 +24,6 @@ class ProductView extends StatefulWidget {
   var price;
   final String contact;
 
-  @override
-  State<ProductView> createState() => _ProductViewState();
-}
-
-class _ProductViewState extends State<ProductView> {
   void launchWhatsapp({required String number, required String message}) async {
     String url = "whatsapp://send?phone=$number&text=$message";
     String defaultSmsUrl = "sms:$number?body=$message";
@@ -73,7 +68,7 @@ class _ProductViewState extends State<ProductView> {
                             offset: const Offset(-4, 4))
                       ],
                       image: DecorationImage(
-                          image: NetworkImage(widget.image), fit: BoxFit.fill),
+                          image: NetworkImage(image), fit: BoxFit.fill),
                     ),
                   ),
                 ),
@@ -107,18 +102,18 @@ class _ProductViewState extends State<ProductView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.name,
+                          name,
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 26),
                         ),
                         Visibility(
-                          visible: widget.breed != null,
+                          visible: breed != null,
                           child: const SizedBox(
                             height: 10,
                           ),
                         ),
                         Visibility(
-                          visible: widget.breed != null,
+                          visible: breed != null,
                           child: RichText(
                             text: TextSpan(
                                 text: "Breed: ",
@@ -128,7 +123,7 @@ class _ProductViewState extends State<ProductView> {
                                     color: Colors.black),
                                 children: [
                                   TextSpan(
-                                      text: widget.breed,
+                                      text: breed,
                                       style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.normal))
@@ -136,13 +131,13 @@ class _ProductViewState extends State<ProductView> {
                           ),
                         ),
                         Visibility(
-                          visible: widget.breed != null,
+                          visible: breed != null,
                           child: const SizedBox(
                             height: 10,
                           ),
                         ),
                         Visibility(
-                          visible: widget.age != null,
+                          visible: age != null,
                           child: RichText(
                             text: TextSpan(
                                 text: "Age: ",
@@ -152,7 +147,7 @@ class _ProductViewState extends State<ProductView> {
                                     color: Colors.black),
                                 children: [
                                   TextSpan(
-                                      text: widget.age.toString(),
+                                      text: age.toString(),
                                       style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.normal))
@@ -171,7 +166,7 @@ class _ProductViewState extends State<ProductView> {
                                   color: Colors.black),
                               children: [
                                 TextSpan(
-                                    text: widget.description,
+                                    text: description,
                                     style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
@@ -189,7 +184,7 @@ class _ProductViewState extends State<ProductView> {
                                   color: Colors.black),
                               children: [
                                 TextSpan(
-                                    text: widget.address,
+                                    text: address,
                                     style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.normal))
@@ -199,7 +194,7 @@ class _ProductViewState extends State<ProductView> {
                           height: 20,
                         ),
                         Text(
-                          "Price: \$${widget.price.toString()}",
+                          "Price: \$${price.toString()}",
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 20),
                         ),
@@ -211,7 +206,7 @@ class _ProductViewState extends State<ProductView> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                launchDialer(number: widget.contact);
+                                launchDialer(number: contact);
                               },
                               child: Container(
                                 height: 40,
@@ -230,7 +225,7 @@ class _ProductViewState extends State<ProductView> {
                                     width: 5,
                                   ),
                                   Text(
-                                    widget.contact,
+                                    contact,
                                     style: TextStyle(
                                         color: whiteColor,
                                         fontWeight: FontWeight.bold),
@@ -241,9 +236,9 @@ class _ProductViewState extends State<ProductView> {
                             GestureDetector(
                               onTap: () {
                                 launchWhatsapp(
-                                    number: widget.contact,
+                                    number: contact,
                                     message:
-                                        "Hello, I want to talk about your ad '${widget.name}' on Avian Tech Emporium");
+                                        "Hello, I want to talk about your ad '$name' on Avian Tech Emporium");
                               },
                               child: Container(
                                 height: 40,
@@ -262,7 +257,7 @@ class _ProductViewState extends State<ProductView> {
                                     width: 5,
                                   ),
                                   Text(
-                                    widget.contact,
+                                    contact,
                                     style: TextStyle(
                                         color: whiteColor,
                                         fontWeight: FontWeight.bold),

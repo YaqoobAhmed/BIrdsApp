@@ -30,29 +30,27 @@ class _LoginViewState extends State<LoginView> {
 
     try {
       setState(() {
-        isLoading =
-            true; // Set loading state to true when starting login process
+        isLoading = true;
       });
 
-      // ignore: unused_local_variable
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailAddress.toLowerCase(),
         password: password,
       );
 
-      // After successful login, navigate to the OnboardingScreen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => OnboardingScreen()),
       );
-      CustomSnackBar.showCustomSnackBar(context, "Loged in Successfully..");
+      CustomSnackBar.showCustomSnackBar(context, "Logged in Successfully..");
     } on FirebaseAuthException catch (e) {
       print('Error Code: ${e.code}');
       print('Error Message: ${e.message}');
 
       setState(() {
-        isLoading = false; // Set loading state to false after login attempt
+        isLoading = false;
       });
+
       if (e.code == 'user-not-found') {
         CustomSnackBar.showCustomSnackBar(
             context, "No user found for that email..");
@@ -60,14 +58,11 @@ class _LoginViewState extends State<LoginView> {
       } else if (e.code == 'wrong-password') {
         CustomSnackBar.showCustomSnackBar(context, "Wrong Password..");
         print('Wrong password provided.');
+      } else if (e.code == "invalid-credential") {
+        CustomSnackBar.showCustomSnackBar(context, "Invalid Credentials..");
       } else {
         CustomSnackBar.showCustomSnackBar(context, "Error: ${e.message}");
-        print('Error: ${e.message}');
       }
-    } finally {
-      setState(() {
-        isLoading = false; // Set loading state to false after login attempt
-      });
     }
   }
 

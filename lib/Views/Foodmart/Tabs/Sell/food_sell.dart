@@ -152,6 +152,13 @@ class _SellScreenState extends State<FoodSellScreen> {
         description == "" ||
         foodPic == null) {
       CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
+    } else if (contact?.length != 11) {
+      CustomSnackBar.showCustomSnackBar(
+          context, "Contact must contain 11 Digits");
+      return;
+    } else if (price == '0') {
+      CustomSnackBar.showCustomSnackBar(context, "Price Can not be 0.");
+      return;
     } else {
       try {
         setState(() {

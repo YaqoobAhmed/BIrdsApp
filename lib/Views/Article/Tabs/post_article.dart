@@ -16,10 +16,10 @@ class PostArticleScreen extends StatefulWidget {
   PostArticleScreen({Key? key}) : super(key: key);
 
   @override
-  _PostArticleScreenState createState() => _PostArticleScreenState();
+  PostArticleScreenState createState() => PostArticleScreenState();
 }
 
-class _PostArticleScreenState extends State<PostArticleScreen> {
+class PostArticleScreenState extends State<PostArticleScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   bool isLoading = false;
@@ -59,7 +59,7 @@ class _PostArticleScreenState extends State<PostArticleScreen> {
       final newMb = newKb / 1024;
 
       if (kDebugMode) {
-        print('compress image size:' + newMb.toString());
+        print('compress image size:$newMb');
       }
 
       articlePic = File(result.path);

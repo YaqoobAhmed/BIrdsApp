@@ -37,7 +37,6 @@ class CustomNavigationDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    backgroundColor: Colors.grey.shade300,
                     radius: 42,
                     backgroundImage: AssetImage("assets/images/logoMain.png"),
                   ),

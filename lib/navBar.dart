@@ -15,13 +15,13 @@ class BottomNavBar extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BottomNavBarState createState() => _BottomNavBarState(initialTabIndex);
+  BottomNavBarState createState() => BottomNavBarState(initialTabIndex);
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class BottomNavBarState extends State<BottomNavBar> {
   int _page;
 
-  _BottomNavBarState(this._page);
+  BottomNavBarState(this._page);
 
   final tabs = [
     BuyScreen(),

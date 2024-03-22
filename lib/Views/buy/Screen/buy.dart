@@ -4,11 +4,13 @@ import 'package:firebase/colors.dart';
 import 'package:flutter/material.dart';
 
 class BuyScreen extends StatefulWidget {
+  const BuyScreen({super.key});
+
   @override
-  _BuyScreenState createState() => _BuyScreenState();
+  BuyScreenState createState() => BuyScreenState();
 }
 
-class _BuyScreenState extends State<BuyScreen> {
+class BuyScreenState extends State<BuyScreen> {
   TextEditingController searchController = TextEditingController();
   bool _isSearching = false;
 
@@ -22,7 +24,7 @@ class _BuyScreenState extends State<BuyScreen> {
         yield* FirebaseFirestore.instance
             .collection("birdAds")
             .where("name", isGreaterThanOrEqualTo: query.toUpperCase())
-            .where("name", isLessThan: query.toUpperCase() + 'z')
+            .where("name", isLessThan: '${query.toUpperCase()}z')
             .snapshots();
         return;
       } catch (e) {
@@ -101,7 +103,7 @@ class _BuyScreenState extends State<BuyScreen> {
                         name: postMap["name"],
                         breed: postMap["breed"],
                         age: postMap["age"],
-                        description: postMap["discription"],
+                        description: postMap["description"],
                         address: postMap["address"],
                         price: postMap["price"],
                         contact: postMap["contact"],
@@ -116,8 +118,8 @@ class _BuyScreenState extends State<BuyScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white,
-                        boxShadow: [
-                          const BoxShadow(
+                        boxShadow: const [
+                          BoxShadow(
                             color: Colors.grey,
                             spreadRadius: 0.5,
                             blurRadius: 5,
@@ -152,7 +154,7 @@ class _BuyScreenState extends State<BuyScreen> {
                               subtitle: Wrap(
                                   alignment: WrapAlignment.spaceBetween,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: MediaQuery.of(context).size.width *
                                           0.2,
                                       child: Text(

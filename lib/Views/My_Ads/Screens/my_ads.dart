@@ -7,7 +7,7 @@ import 'package:firebase/colors.dart';
 class MyAds extends StatelessWidget {
   final String currentUserUid;
 
-  const MyAds({Key? key, required this.currentUserUid}) : super(key: key);
+  const MyAds({super.key, required this.currentUserUid});
 
   Stream<QuerySnapshot> fetchData() async* {
     yield* FirebaseFirestore.instance
@@ -20,7 +20,7 @@ class MyAds extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Ads"),
+        title: const Text("My Ads"),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: fetchData(),
@@ -73,7 +73,7 @@ class MyAds extends StatelessWidget {
                         name: postMap["name"],
                         breed: postMap["breed"],
                         age: postMap["age"],
-                        description: postMap["discription"],
+                        description: postMap["description"],
                         address: postMap["address"],
                         price: postMap["price"],
                         contact: postMap["contact"],

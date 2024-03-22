@@ -23,42 +23,42 @@ class SellScreen extends StatefulWidget {
 }
 
 class _SellScreenState extends State<SellScreen> {
-  TextEditingController titleControlle = TextEditingController();
-  TextEditingController breedControlle = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController breedController = TextEditingController();
   // TextEditingController contactController = TextEditingController().
   TextEditingController ageController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  TextEditingController discriptionController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   bool _isLoading = false;
   File? _birdPic;
   bool _imageselected = false;
-  XFile? _image;
-
+  XFile? image;
   final picker = ImagePicker();
+
   // method to pick single _image while replacing the photo
-  Future imagePicker(ImageSource source) async {
-    _image = (await picker.pickImage(source: source));
-    if (_image != null) {
-      final bytes = await _image!.readAsBytes();
+  void imagePicker(ImageSource source) async {
+    image = await picker.pickImage(source: source);
+
+    if (image != null) {
+      final bytes = await image!.readAsBytes();
       final kb = bytes.length / 1024;
       final mb = kb / 1024;
 
       if (kDebugMode) {
-        print('original _image size:' + mb.toString());
+        print('original image size: $mb MB');
       }
 
       final dir = await path_provider.getTemporaryDirectory();
       final targetPath = '${dir.absolute.path}/temp.jpg';
 
-      // converting original _image to compress it
       final result = await FlutterImageCompress.compressAndGetFile(
-        _image!.path,
+        image!.path,
         targetPath,
-        minHeight: 800, //you can play with this to reduce siz
+        minHeight: 800,
         minWidth: 800,
-        quality: 80, // keep this high to get the original quality of _image
+        quality: 80,
       );
 
       final data = await result!.readAsBytes();
@@ -66,12 +66,13 @@ class _SellScreenState extends State<SellScreen> {
       final newMb = newKb / 1024;
 
       if (kDebugMode) {
-        print('compress _image size:' + newMb.toString());
+        print('compressed image size: $newMb MB');
       }
 
-      _birdPic = File(result.path);
-
-      setState(() {});
+      setState(() {
+        _birdPic = File(result.path);
+        _imageselected = true; // Update _imageselected to true
+      });
     }
   }
 
@@ -90,11 +91,9 @@ class _SellScreenState extends State<SellScreen> {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: () async {
-                            await imagePicker(ImageSource.camera);
-                            setState(() {
-                              _imageselected = true;
-                            });
+                          onPressed: () {
+                            imagePicker(ImageSource.camera);
+
                             Navigator.of(context).pop();
                           },
                           icon: Icon(Icons.camera_alt),
@@ -110,11 +109,9 @@ class _SellScreenState extends State<SellScreen> {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: () async {
-                            await imagePicker(ImageSource.gallery);
-                            setState(() {
-                              _imageselected = true;
-                            });
+                          onPressed: () {
+                            imagePicker(ImageSource.gallery);
+
                             Navigator.of(context).pop();
                           },
                           icon: Icon(Icons.photo_library),
@@ -139,12 +136,12 @@ class _SellScreenState extends State<SellScreen> {
   void AddPost() async {
     PhoneProvider phoneProvider =
         Provider.of<PhoneProvider>(context, listen: false);
-    String title = titleControlle.text.trim();
-    String breed = breedControlle.text.trim();
+    String title = titleController.text.trim();
+    String breed = breedController.text.trim();
     String age = ageController.text.trim();
     String price = priceController.text.trim();
     String address = addressController.text.trim();
-    String description = discriptionController.text.trim();
+    String description = descriptionController.text.trim();
     // String contact = contactController.text.trim();
     String? contact =
         phoneProvider.phoneNumber; // Get the current user's phone number
@@ -163,6 +160,13 @@ class _SellScreenState extends State<SellScreen> {
       // print("${contact}");
       CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
       print("Please fill all fields");
+    } else if (contact?.length != 11) {
+      CustomSnackBar.showCustomSnackBar(
+          context, "Contact must contain 11 Digits");
+      return;
+    } else if (price == '0') {
+      CustomSnackBar.showCustomSnackBar(context, "Price Can not be 0.");
+      return;
     } else {
       try {
         setState(() {
@@ -211,19 +215,14 @@ class _SellScreenState extends State<SellScreen> {
   }
 
   void clear() {
-    priceController.clear();
-    // contactController.clear();
-    titleControlle.clear();
-    breedControlle.clear();
+    titleController.clear();
+    breedController.clear();
     ageController.clear();
-    discriptionController.clear();
+    descriptionController.clear();
     priceController.clear();
     addressController.clear();
-    _image = null; // Fixed the assignment operator
-    _birdPic = null; // Fixed the assignment operator
-    setState(() {
-      _imageselected = false; // Reset _imageselected to false
-    });
+    _birdPic = null;
+    _imageselected = false; // Update _imageselected to false
   }
 
   @override
@@ -302,7 +301,7 @@ class _SellScreenState extends State<SellScreen> {
                           children: [
                             TextFormField(
                               textCapitalization: TextCapitalization.words,
-                              controller: titleControlle,
+                              controller: titleController,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(color: blueColor),
@@ -311,7 +310,7 @@ class _SellScreenState extends State<SellScreen> {
                             ),
                             TextFormField(
                               textCapitalization: TextCapitalization.sentences,
-                              controller: breedControlle,
+                              controller: breedController,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(color: blueColor),
@@ -334,11 +333,11 @@ class _SellScreenState extends State<SellScreen> {
                             ),
                             TextFormField(
                               textCapitalization: TextCapitalization.sentences,
-                              controller: discriptionController,
+                              controller: descriptionController,
                               keyboardType: TextInputType.multiline,
                               decoration: InputDecoration(
                                 labelStyle: TextStyle(color: blueColor),
-                                labelText: "Discription:",
+                                labelText: "Description:",
                               ),
                             ),
                             TextFormField(

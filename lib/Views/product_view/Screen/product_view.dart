@@ -194,7 +194,7 @@ class ProductView extends StatelessWidget {
                           height: 20,
                         ),
                         Text(
-                          "Price: \$${price.toString()}",
+                          "Price: Rs.${price.toString()}",
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 20),
                         ),

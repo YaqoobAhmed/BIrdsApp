@@ -64,9 +64,10 @@ class _SellScreenState extends State<SellScreen> {
       if (kDebugMode) {
         print('compressed image size: $newMb MB');
       }
-      File compressedfile = File(result.path);
+
       setState(() {
-        _birdPic = compressedfile;
+        _birdPic = File(result.path);
+        ;
         _imageselected = true; // Update _imageselected to true
       });
     }

@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
                 appBarTheme: AppBarTheme(
                     centerTitle: true,
                     color: blueColor,
-                    // titleTextStyle: GoogleFonts.carterOne(),
                     titleTextStyle: TextStyle(
                       fontFamily: "CarterOne",
                       fontSize: 20,

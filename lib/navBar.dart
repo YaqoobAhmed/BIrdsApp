@@ -42,12 +42,6 @@ class BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   backgroundColor: blueColor,
-      // ),
-      // floatingActionButtonLocation:
-      //     FloatingActionButtonLocation.miniCenterFloat,
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
         items: [

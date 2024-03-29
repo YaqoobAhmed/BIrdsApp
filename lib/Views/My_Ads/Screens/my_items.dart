@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/Views/My_Ads/Edit_screens/edit_items.dart';
 import 'package:firebase/Views/product_view/Screen/product_view.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase/colors.dart';
 
@@ -47,10 +49,30 @@ class MyItems extends StatelessWidget {
                   Center(
                     child: CircularProgressIndicator(),
                   );
-                  await FirebaseFirestore.instance
-                      .collection("martAds")
-                      .doc(snapshot.data!.docs[index].id)
-                      .delete();
+                  try {
+                    // Get the URL of the picture from Firestore
+                    final imageUrl = postMap['foodPic'];
+
+                    // Delete the picture from Firebase Storage
+                    if (imageUrl.isNotEmpty) {
+                      // Get a reference to the file in Firebase Storage
+                      final storageReference =
+                          FirebaseStorage.instance.refFromURL(imageUrl);
+
+                      // Delete the file
+                      await storageReference.delete();
+                    }
+
+                    // Proceed to delete the document from Firestore
+                    await FirebaseFirestore.instance
+                        .collection("martAds")
+                        .doc(snapshot.data!.docs[index].id)
+                        .delete();
+                  } catch (error) {
+                    CustomSnackBar.showCustomSnackBar(
+                        context, 'Error deleting ad: $error');
+                    print('Error deleting ad: $error');
+                  }
                 }
 
                 void editItem() {
@@ -127,7 +149,7 @@ class MyItems extends StatelessWidget {
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  "\$$price",
+                                  "Rs.$price",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,

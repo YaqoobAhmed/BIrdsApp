@@ -19,6 +19,7 @@ class _ScanScreenState extends State<ScanScreen> {
     super.initState();
     _selectImageFromCamera();
   }
+  //
 
   Future<void> _selectImageFromCamera() async {
     XFile? selectedImage =

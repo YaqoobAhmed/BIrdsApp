@@ -59,16 +59,6 @@ class _RegisterViewState extends State<RegisterView> {
         // ignore: unused_local_variable
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
-        // String uid = userCredential.user!.uid;
-
-        // UploadTask uploadTask = FirebaseStorage.instance
-        //     .ref()
-        //     .child("UserProfilePictures")
-        //     .child(Uuid().v1())
-        //     .putFile(profilePick!);
-
-        // TaskSnapshot taskSnapshot = await uploadTask;
-        // String donwnloadUrl = await taskSnapshot.ref.getDownloadURL();
 
         //fore storing user info
         FirebaseFirestore _firestore = FirebaseFirestore.instance;

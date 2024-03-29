@@ -25,7 +25,6 @@ class SellScreen extends StatefulWidget {
 class _SellScreenState extends State<SellScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController breedController = TextEditingController();
-  // TextEditingController contactController = TextEditingController().
   TextEditingController ageController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -34,15 +33,12 @@ class _SellScreenState extends State<SellScreen> {
   bool _isLoading = false;
   File? _birdPic;
   bool _imageselected = false;
-  XFile? image;
-  final picker = ImagePicker();
 
-  // method to pick single _image while replacing the photo
-  void imagePicker(ImageSource source) async {
-    image = await picker.pickImage(source: source);
+  Future<void> imagePicker(ImageSource source) async {
+    XFile? image = await ImagePicker().pickImage(source: source);
 
     if (image != null) {
-      final bytes = await image!.readAsBytes();
+      final bytes = await image.readAsBytes();
       final kb = bytes.length / 1024;
       final mb = kb / 1024;
 
@@ -54,7 +50,7 @@ class _SellScreenState extends State<SellScreen> {
       final targetPath = '${dir.absolute.path}/temp.jpg';
 
       final result = await FlutterImageCompress.compressAndGetFile(
-        image!.path,
+        image.path,
         targetPath,
         minHeight: 800,
         minWidth: 800,
@@ -68,9 +64,9 @@ class _SellScreenState extends State<SellScreen> {
       if (kDebugMode) {
         print('compressed image size: $newMb MB');
       }
-
+      File compressedfile = File(result.path);
       setState(() {
-        _birdPic = File(result.path);
+        _birdPic = compressedfile;
         _imageselected = true; // Update _imageselected to true
       });
     }
@@ -142,7 +138,6 @@ class _SellScreenState extends State<SellScreen> {
     String price = priceController.text.trim();
     String address = addressController.text.trim();
     String description = descriptionController.text.trim();
-    // String contact = contactController.text.trim();
     String? contact =
         phoneProvider.phoneNumber; // Get the current user's phone number
 
@@ -156,8 +151,6 @@ class _SellScreenState extends State<SellScreen> {
         address == "" ||
         description == "" ||
         _birdPic == null) {
-      // print("${currentUser!.phoneNumber}");
-      // print("${contact}");
       CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
       print("Please fill all fields");
     } else if (contact?.length != 11) {
@@ -296,7 +289,6 @@ class _SellScreenState extends State<SellScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: SizedBox(
-                        // height: MediaQuery.of(context).size.height * 0.75,
                         child: Column(
                           children: [
                             TextFormField(

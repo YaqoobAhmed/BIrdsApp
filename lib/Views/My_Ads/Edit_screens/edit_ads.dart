@@ -193,8 +193,6 @@ class _EditAdScreenState extends State<EditAdScreen> {
         newPrice == "" ||
         newAddress == "" ||
         newContact == "") {
-      // print("${currentUser!.phoneNumber}");
-      // print("${contact}");
       CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
       print("Please fill all fields");
       return;

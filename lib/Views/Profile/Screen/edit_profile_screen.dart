@@ -362,10 +362,7 @@ class _EditAdScreenState extends State<EditProfileScreen> {
               CustomSnackBar.showCustomSnackBar(
                   context, "Incorrect old password.");
 
-              // Prompt user to re-enter old password
-              // You can implement your own logic here, such as showing/hiding UI elements
-              // For now, we'll set enteredOldPassword to an empty string to force the loop to continue
-              enteredOldPassword = '';
+              enteredOldPassword = "";
             } else {
               // Handle other FirebaseAuthException errors
               CustomSnackBar.showCustomSnackBar(context, 'Error: ${e.message}');

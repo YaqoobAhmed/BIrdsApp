@@ -120,8 +120,6 @@ class _EditArticleScreenState extends State<EditArticleScreen> {
     // Update the article in Firestore using the docId
 
     if (newTitle.isEmpty || newDescription.isEmpty) {
-      // print("${currentUser!.phoneNumber}");
-      // print("${contact}");
       CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
       print("Please fill all fields");
       return;

@@ -30,7 +30,6 @@ class PostArticleScreenState extends State<PostArticleScreen> {
 
   final picker = ImagePicker();
 
-  // method to pick single image while replacing the photo
   Future imagePicker(ImageSource source) async {
     image = (await picker.pickImage(source: source));
     if (image != null) {

@@ -63,7 +63,6 @@ class _EditAdScreenState extends State<EditItemsScreen> {
                       child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: SizedBox(
-                      // height: MediaQuery.of(context).size.height * 0.75,
                       child: Column(
                         children: [
                           TextFormField(
@@ -166,8 +165,6 @@ class _EditAdScreenState extends State<EditItemsScreen> {
         newPrice.isEmpty ||
         newAddress.isEmpty ||
         newContact.isEmpty) {
-      // print("${currentUser!.phoneNumber}");
-      // print("${contact}");
       CustomSnackBar.showCustomSnackBar(context, "Please fill in all fields");
       print("Please fill all fields");
       return;

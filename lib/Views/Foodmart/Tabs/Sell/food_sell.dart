@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/SnackBar/snackBar.dart';
 import 'package:firebase/colors.dart';
 import 'package:firebase/provider/phone_provider.dart';
-// import 'package:firebase/provider/phone_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-// import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
@@ -26,7 +24,6 @@ class FoodSellScreen extends StatefulWidget {
 
 class _SellScreenState extends State<FoodSellScreen> {
   TextEditingController titleControlle = TextEditingController();
-  // TextEditingController contactController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController discriptionController = TextEditingController();
@@ -190,7 +187,6 @@ class _SellScreenState extends State<FoodSellScreen> {
 
         //clearing all the data after successful post
         titleControlle.clear();
-        // contactController.clear();
         priceController.clear();
         priceController.clear();
         addressController.clear();
@@ -264,7 +260,6 @@ class _SellScreenState extends State<FoodSellScreen> {
                     child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: SizedBox(
-                    // height: MediaQuery.of(context).size.height * 0.9,
                     child: Column(
                       children: [
                         TextFormField(
@@ -285,14 +280,6 @@ class _SellScreenState extends State<FoodSellScreen> {
                             labelText: "Discription:",
                           ),
                         ),
-                        // TextFormField(
-                        //   controller: contactController,
-                        //   keyboardType: TextInputType.phone,
-                        //   decoration: InputDecoration(
-                        //     labelStyle: TextStyle(color: blueColor),
-                        //     labelText: "Contact:",
-                        //   ),
-                        // ),
                         TextFormField(
                           controller: priceController,
                           keyboardType:
